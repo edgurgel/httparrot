@@ -1,4 +1,4 @@
-# HTTParrot
+# HTTParrot [![Build Status](https://travis-ci.org/edgurgel/httparrot.png?branch=master)](https://travis-ci.org/edgurgel/httparrot)
 
 httpbin.org clone
 
