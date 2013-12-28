@@ -7,7 +7,8 @@ defmodule HTTParrot do
              {'/user-agent', HTTParrot.UserAgentHandler, []},
              {'/headers', HTTParrot.HeadersHandler, []},
              {'/get', HTTParrot.GetHandler, []},
-             {'/status/:code', HTTParrot.StatusCodeHandler, []} ] }
+             {'/status/:code', HTTParrot.StatusCodeHandler, []},
+             {'/redirect-to', HTTParrot.RedirectToHandler, []} ] }
     ])
     {:ok, port} = :application.get_env(:httparrot, :port)
     {:ok, _} = :cowboy.start_http(:http, 100, [port: port], [env: [dispatch: dispatch], onresponse: &prettify_json/4])
