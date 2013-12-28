@@ -8,7 +8,8 @@ defmodule HTTParrot do
              {'/headers', HTTParrot.HeadersHandler, []},
              {'/get', HTTParrot.GetHandler, []},
              {'/status/:code', HTTParrot.StatusCodeHandler, []},
-             {'/redirect-to', HTTParrot.RedirectToHandler, []} ] }
+             {'/redirect-to', HTTParrot.RedirectToHandler, []},
+             {'/html', :cowboy_static, {:priv_file, :httparrot, "html.html"}} ] }
     ])
     {:ok, port} = :application.get_env(:httparrot, :port)
     {:ok, _} = :cowboy.start_http(:http, 100, [port: port], [env: [dispatch: dispatch], onresponse: &prettify_json/4])
