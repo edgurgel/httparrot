@@ -18,8 +18,6 @@ defmodule HTTParrotTest do
   end
 
   test "'prettify_json' does nothing if body is not a JSON" do
-    expect(:cowboy_req, :reply, [{[:status, :headers, "<xml></xml>", :req1], {:ok, :req2}}])
-    assert prettify_json(:status, :headers, "<xml></xml>", :req1) == :req2
-    assert validate :cowboy_req
+    assert prettify_json(:status, :headers, "<xml></xml>", :req1) == :req1
   end
 end

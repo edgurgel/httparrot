@@ -21,8 +21,8 @@ defmodule HTTParrot do
     if JSEX.is_json? body do
       body = JSEX.prettify!(body)
       headers = ListDict.put(headers, "content-length", integer_to_list(String.length(body)))
+      {:ok, req} = :cowboy_req.reply(status, headers, body, req)
     end
-    {:ok, req} = :cowboy_req.reply(status, headers, body, req)
     req
   end
 end
