@@ -7,6 +7,7 @@ defmodule HTTParrot do
              {'/user-agent', HTTParrot.UserAgentHandler, []},
              {'/headers', HTTParrot.HeadersHandler, []},
              {'/get', HTTParrot.GetHandler, []},
+             {'/post', HTTParrot.PostHandler, []},
              {'/status/:code', HTTParrot.StatusCodeHandler, []},
              {'/redirect-to', HTTParrot.RedirectToHandler, []},
              {'/html', :cowboy_static, {:priv_file, :httparrot, "html.html"}} ] }
