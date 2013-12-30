@@ -1,4 +1,6 @@
 defmodule HTTParrot.GetHandler do
+  alias HTTParrot.GeneralRequestInfo
+
   def init(_transport, _req, _opts) do
     {:upgrade, :protocol, :cowboy_rest}
   end
@@ -12,19 +14,12 @@ defmodule HTTParrot.GetHandler do
   end
 
   def get_json(req, state) do
-    {args, req} = :cowboy_req.qs_vals(req)
-    {headers, req} = :cowboy_req.headers(req)
-    {url, req} = :cowboy_req.url(req)
-    {{ip, _port}, req} = :cowboy_req.peer(req)
-    {response(args, headers, url, ip), req, state}
+    {info, req} = GeneralRequestInfo.retrieve(req)
+    {response(info), req, state}
   end
 
-  defp response(args, headers, url, ip) do
-    ip = :inet_parse.ntoa(ip) |> to_string
-    if args == [], do: args = [{}]
-
-    [args: args, headers: headers, url: url, origin: ip]
-    |> JSEX.encode!
+  defp response(info) do
+    info |> JSEX.encode!
   end
 
   def terminate(_, _, _), do: :ok
