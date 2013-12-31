@@ -5,21 +5,21 @@ defmodule HTTParrot.GetHandlerTest do
 
   setup do
     new HTTParrot.GeneralRequestInfo
+    new JSEX
   end
 
   teardown do
     unload HTTParrot.GeneralRequestInfo
+    unload JSEX
   end
 
   test "returns prettified json with query values, headers, url and origin" do
-    qs_vals = [{"a", "b"}]
-    headers = [header1: "value 1", header2: "value 2"]
-    url = "http://localhost/get?a=b"
-    ip = "127.1.2.3"
-    expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[args: qs_vals, headers: headers, url: url, origin: ip], :req2})
+    expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {:info, :req2})
+    expect(JSEX, :encode!, [{[:info], :json}])
 
-    assert get_json(:req1, :state) == {"{\"args\":{\"a\":\"b\"},\"headers\":{\"header1\":\"value 1\",\"header2\":\"value 2\"},\"url\":\"http://localhost/get?a=b\",\"origin\":\"127.1.2.3\"}", :req2, :state}
+    assert get_json(:req1, :state) == {:json, :req2, :state}
 
     assert validate HTTParrot.GeneralRequestInfo
+    assert validate JSEX
   end
 end

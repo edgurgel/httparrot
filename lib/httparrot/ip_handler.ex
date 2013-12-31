@@ -18,9 +18,7 @@ defmodule HTTParrot.IPHandler do
 
   defp response(ip) do
     ip = :inet_parse.ntoa(ip) |> to_string
-
-    [origin: ip]
-    |> JSEX.encode!
+    [origin: ip] |> JSEX.encode!
   end
 
   def terminate(_, _, _), do: :ok
