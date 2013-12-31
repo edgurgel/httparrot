@@ -13,12 +13,12 @@ defmodule HTTParrot.PostHandler do
       {{"application", "x-www-form-urlencoded", :*}, :post_form}], req, state}
   end
 
-  def post_form(req, state) do
+  def post_form(req, _state) do
     {:ok, body, req} = :cowboy_req.body_qs(req)
     post(req, [form: body, data: "", json: nil])
   end
 
-  def post_json(req, state) do
+  def post_json(req, _state) do
     {:ok, body, req} = :cowboy_req.body(req)
     post(req, [form: [{}], data: body, json: JSEX.decode!(body)])
   end

@@ -1,6 +1,4 @@
 defmodule HTTParrot.BasicAuthHandler do
-  alias HTTParrot.GeneralRequestInfo
-
   def init(_transport, _req, _opts) do
     {:upgrade, :protocol, :cowboy_rest}
   end
