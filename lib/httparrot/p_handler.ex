@@ -1,12 +1,20 @@
-defmodule HTTParrot.PostHandler do
+defmodule HTTParrot.PHandler do
+  @moduledoc """
+  This REST handler will respond to POST, PATCH and PUT requests.
+  """
   alias HTTParrot.GeneralRequestInfo
 
   def init(_transport, _req, _opts) do
     {:upgrade, :protocol, :cowboy_rest}
   end
 
+  @doc """
+  When a request is made to /post, allowed_methods will return POST for example
+  """
   def allowed_methods(req, state) do
-    {["POST"], req, state}
+    {path, req} = :cowboy_req.path(req)
+    path = String.slice(path, 1..-1)
+    {[String.upcase(path)], req, state}
   end
 
   def content_types_accepted(req, state) do

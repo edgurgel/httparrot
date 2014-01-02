@@ -1,7 +1,7 @@
-defmodule HTTParrot.PostHandlerTest do
+defmodule HTTParrot.PHandlerTest do
   use ExUnit.Case
   import :meck
-  import HTTParrot.PostHandler
+  import HTTParrot.PHandler
 
   setup do
     new HTTParrot.GeneralRequestInfo
@@ -15,7 +15,19 @@ defmodule HTTParrot.PostHandlerTest do
     unload :cowboy_req
   end
 
-  test "returns json with general info and POST form data" do
+  Enum.each [{"/post", "POST"},
+             {"/patch", "PATCH"},
+             {"/put", "PUT"}], fn {path, verb} ->
+    test "allowed_methods return verb related to #{path}" do
+      expect(:cowboy_req, :path, 1, {unquote(path), :req2})
+
+      assert allowed_methods(:req1, :state) == {[unquote(verb)], :req2, :state}
+
+      assert validate :cowboy_req
+    end
+  end
+
+  test "returns json with general info and P[OST, ATCH, UT] form data" do
     expect(:cowboy_req, :body_qs, 1, {:ok, :body_qs, :req2})
     expect(:cowboy_req, :set_resp_body, [{[:response, :req3], :req4}])
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req3})
@@ -26,7 +38,7 @@ defmodule HTTParrot.PostHandlerTest do
     assert validate HTTParrot.GeneralRequestInfo
   end
 
-  test "returns json with general info and POST JSON body data" do
+  test "returns json with general info and P[OST, ATCH, UT] JSON body data" do
     expect(:cowboy_req, :body, 1, {:ok, :body, :req2})
     expect(:cowboy_req, :set_resp_body, [{[:response, :req3], :req4}])
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req3})
