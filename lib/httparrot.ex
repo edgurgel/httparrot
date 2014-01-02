@@ -10,6 +10,7 @@ defmodule HTTParrot do
              {'/post', HTTParrot.PostHandler, []},
              {'/status/:code', HTTParrot.StatusCodeHandler, []},
              {'/redirect-to', HTTParrot.RedirectToHandler, []},
+             {'/cookies', HTTParrot.CookiesHandler, []},
              {'/basic-auth/:user/:passwd', HTTParrot.BasicAuthHandler, []},
              {'/html', :cowboy_static, {:priv_file, :httparrot, "html.html"}} ] }
     ])
