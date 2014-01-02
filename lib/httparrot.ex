@@ -11,6 +11,7 @@ defmodule HTTParrot do
              {'/status/:code', HTTParrot.StatusCodeHandler, []},
              {'/redirect-to', HTTParrot.RedirectToHandler, []},
              {'/cookies', HTTParrot.CookiesHandler, []},
+             {'/cookies/set', HTTParrot.SetCookiesHandler, []},
              {'/basic-auth/:user/:passwd', HTTParrot.BasicAuthHandler, []},
              {'/html', :cowboy_static, {:priv_file, :httparrot, "html.html"}} ] }
     ])
