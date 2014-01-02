@@ -8,9 +8,14 @@ defmodule HTTParrot.PostHandler do
   def allowed_methods(req, state) do
     {["POST"], req, state}
   end
+
   def content_types_accepted(req, state) do
     {[{{"application", "json", :*}, :post_json},
       {{"application", "x-www-form-urlencoded", :*}, :post_form}], req, state}
+  end
+
+  def content_types_provided(req, state) do
+    {[{{"application", "json", []}, :undefined}], req, state}
   end
 
   def post_form(req, _state) do
