@@ -19,6 +19,7 @@ defmodule HTTParrot do
              {'/basic-auth/:user/:passwd', HTTParrot.BasicAuthHandler, []},
              {'/hidden-basic-auth/:user/:passwd', HTTParrot.HiddenBasicAuthHandler, []},
              {'/stream/:n', HTTParrot.StreamHandler, []},
+             {'/delay/:n', HTTParrot.DelayedHandler, []},
              {'/html', :cowboy_static, {:priv_file, :httparrot, "html.html"}} ] }
     ])
     {:ok, port} = :application.get_env(:httparrot, :port)
