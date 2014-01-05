@@ -10,6 +10,7 @@ defmodule HTTParrot do
              {'/post', HTTParrot.PHandler, []},
              {'/put', HTTParrot.PHandler, []},
              {'/patch', HTTParrot.PHandler, []},
+             {'/delete', HTTParrot.DeleteHandler, []},
              {'/status/:code', HTTParrot.StatusCodeHandler, []},
              {'/redirect-to', HTTParrot.RedirectToHandler, []},
              {'/cookies', HTTParrot.CookiesHandler, []},
