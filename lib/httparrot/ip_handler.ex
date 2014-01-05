@@ -1,4 +1,8 @@
 defmodule HTTParrot.IPHandler do
+  @moduledoc """
+  Returns Origin IP
+  """
+
   def init(_transport, _req, _opts) do
     {:upgrade, :protocol, :cowboy_rest}
   end

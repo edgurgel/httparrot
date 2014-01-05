@@ -1,4 +1,8 @@
 defmodule HTTParrot.DeleteCookiesHandler do
+  @moduledoc """
+  Deletes one or more simple cookies.
+  """
+
   def init(_transport, _req, _opts) do
     {:upgrade, :protocol, :cowboy_rest}
   end

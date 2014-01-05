@@ -1,4 +1,8 @@
 defmodule HTTParrot.UserAgentHandler do
+  @moduledoc """
+  Returns user-agent.
+  """
+
   def init(_transport, _req, _opts) do
     {:upgrade, :protocol, :cowboy_rest}
   end

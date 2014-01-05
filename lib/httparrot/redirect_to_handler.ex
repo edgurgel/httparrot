@@ -1,4 +1,8 @@
 defmodule HTTParrot.RedirectToHandler do
+  @moduledoc """
+  Redirects to the foo URL.
+  """
+
   def init(_transport, _req, _opts) do
     {:upgrade, :protocol, :cowboy_rest}
   end

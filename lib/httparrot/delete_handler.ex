@@ -1,4 +1,7 @@
 defmodule HTTParrot.DeleteHandler do
+  @moduledoc """
+  Returns DELETE data.
+  """
   alias HTTParrot.GeneralRequestInfo
 
   def init(_transport, _req, _opts) do

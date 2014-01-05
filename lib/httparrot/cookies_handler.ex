@@ -1,4 +1,8 @@
 defmodule HTTParrot.CookiesHandler do
+  @moduledoc """
+  Returns cookie data.
+  """
+
   def init(_transport, _req, _opts) do
     {:upgrade, :protocol, :cowboy_rest}
   end

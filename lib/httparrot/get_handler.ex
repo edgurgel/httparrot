@@ -1,4 +1,7 @@
 defmodule HTTParrot.GetHandler do
+  @moduledoc """
+  Returns GET data.
+  """
   alias HTTParrot.GeneralRequestInfo
 
   def init(_transport, _req, _opts) do

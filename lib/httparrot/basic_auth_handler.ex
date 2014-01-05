@@ -1,4 +1,7 @@
 defmodule HTTParrot.BasicAuthHandler do
+  @moduledoc """
+  Challenges HTTPBasic Auth
+  """
   def init(_transport, _req, _opts) do
     {:upgrade, :protocol, :cowboy_rest}
   end

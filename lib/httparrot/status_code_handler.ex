@@ -1,4 +1,8 @@
 defmodule HTTParrot.StatusCodeHandler do
+  @moduledoc """
+  Returns given HTTP Status code.
+  """
+
   def init(_transport, _req, _opts) do
     {:upgrade, :protocol, :cowboy_rest}
   end

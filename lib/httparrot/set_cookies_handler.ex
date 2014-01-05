@@ -1,4 +1,8 @@
 defmodule HTTParrot.SetCookiesHandler do
+  @moduledoc """
+  Sets one or more simple cookies.
+  """
+
   def init(_transport, _req, _opts) do
     {:upgrade, :protocol, :cowboy_rest}
   end
