@@ -40,7 +40,6 @@ http://httpbin.org clone
 * /redirect/:n 302 Redirects n times.
 * /relative-redirect/:n 302 Relative redirects n times.
 * /digest-auth/:qop/:user/:passwd Challenges HTTP Digest Auth.
-* /delay/:n Delays responding for n–10 seconds.
 * /robots.txt Returns some robots.txt rules.
 * /deny Denied by robots.txt file.
 * /cache Returns 200 unless an If-Modified-Since header is provided, when it returns a 304 Not Modified.
