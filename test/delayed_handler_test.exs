@@ -6,11 +6,13 @@ defmodule HTTParrot.DelayedHandlerTest do
   setup do
     new HTTParrot.GeneralRequestInfo
     new JSEX
+    new :cowboy_req
   end
 
   teardown do
     unload HTTParrot.GeneralRequestInfo
     unload JSEX
+    unload :cowboy_req
   end
 
   test "malformed_request returns false if it's not an integer" do
