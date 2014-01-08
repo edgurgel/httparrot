@@ -37,7 +37,6 @@ http://httpbin.org clone
 * / This page.
 * /gzip Returns gzip-encoded data.
 * /response-headers?key=val Returns given response headers.
-* /redirect/:n 302 Redirects n times.
 * /relative-redirect/:n 302 Relative redirects n times.
 * /digest-auth/:qop/:user/:passwd Challenges HTTP Digest Auth.
 * /robots.txt Returns some robots.txt rules.
