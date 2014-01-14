@@ -19,6 +19,8 @@ defmodule HTTParrot.PHandler do
 
   def content_types_accepted(req, state) do
     {[{{"application", "json", :*}, :post_json},
+      {{"application", "octet-stream", :*}, :post_json},
+      {{"text", "plain", :*}, :post_json},
       {{"application", "x-www-form-urlencoded", :*}, :post_form}], req, state}
   end
 
@@ -33,7 +35,11 @@ defmodule HTTParrot.PHandler do
 
   def post_json(req, _state) do
     {:ok, body, req} = :cowboy_req.body(req)
-    post(req, [form: [{}], data: body, json: JSEX.decode!(body)])
+    if JSEX.is_json?(body) do
+      post(req, [form: [{}], data: body, json: JSEX.decode!(body)])
+    else
+      post(req, [form: [{}], data: body, json: nil])
+    end
   end
 
   defp post(req, body) do
