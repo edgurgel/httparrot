@@ -18,9 +18,9 @@ defmodule HTTParrot.PHandler do
   end
 
   def content_types_accepted(req, state) do
-    {[{{"application", "json", :*}, :post_json},
-      {{"application", "octet-stream", :*}, :post_json},
-      {{"text", "plain", :*}, :post_json},
+    {[{{"application", "json", :*}, :post_binary},
+      {{"application", "octet-stream", :*}, :post_binary},
+      {{"text", "plain", :*}, :post_binary},
       {{"application", "x-www-form-urlencoded", :*}, :post_form}], req, state}
   end
 
@@ -33,12 +33,18 @@ defmodule HTTParrot.PHandler do
     post(req, [form: body, data: "", json: nil])
   end
 
-  def post_json(req, _state) do
+  def post_binary(req, _state) do
     {:ok, body, req} = :cowboy_req.body(req)
-    if JSEX.is_json?(body) do
-      post(req, [form: [{}], data: body, json: JSEX.decode!(body)])
+    if String.valid?(body) do
+      if JSEX.is_json?(body) do
+        post(req, [form: [{}], data: body, json: JSEX.decode!(body)])
+      else
+        post(req, [form: [{}], data: body, json: nil])
+      end
     else
-      post(req, [form: [{}], data: body, json: nil])
+      # Octet-stream
+      body = :base64.encode(body)
+      post(req, [form: [{}], data: "data:application/octet-stream;base64," <> body, json: nil])
     end
   end
 
