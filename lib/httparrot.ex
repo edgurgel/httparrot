@@ -23,9 +23,15 @@ defmodule HTTParrot do
              {'/delay/:n', HTTParrot.DelayedHandler, []},
              {'/html', :cowboy_static, {:priv_file, :httparrot, "html.html"}} ] }
     ])
-    {:ok, port} = :application.get_env(:httparrot, :port)
-    {:ok, _} = :cowboy.start_http(:http, 100, [port: port], [env: [dispatch: dispatch], onresponse: &prettify_json/4])
-    IO.puts "Starting HTTParrot using on port #{port}"
+    {:ok, http_port} = :application.get_env(:httparrot, :http_port)
+    {:ok, https_port} = :application.get_env(:httparrot, :https_port)
+    {:ok, _} = :cowboy.start_http(:http, 100, [port: http_port],
+                                  [env: [dispatch: dispatch], onresponse: &prettify_json/4])
+    {:ok, _} = :cowboy.start_https(:https, 100,
+      [port: https_port, cacertfile: "priv/ssl/server-ca.crt",
+       certfile: "priv/ssl/server.crt", keyfile: "priv/ssl/server.key"],
+      [env: [dispatch: dispatch], onresponse: &prettify_json/4])
+    IO.puts "Starting HTTParrot on port #{http_port} and SSL on #{https_port}"
     HTTParrot.Supervisor.start_link
   end
 

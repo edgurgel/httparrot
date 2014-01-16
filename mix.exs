@@ -15,7 +15,7 @@ defmodule Httparrot.Mixfile do
                       :cowboy,
                       :jsex ],
       mod: { HTTParrot, [] },
-      env: [ port: 8080 ] ]
+      env: [ http_port: 8080, https_port: 8433 ] ]
   end
 
   defp deps(:dev) do
