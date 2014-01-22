@@ -1,6 +1,6 @@
 defmodule HTTParrot.DenyHandler do
   @moduledoc """
-  Returns GET data.
+  Returns a simple HTML page.
   """
   alias HTTParrot.GeneralRequestInfo
 
