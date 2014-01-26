@@ -6,7 +6,7 @@ otp_release:
   - R16B
   - R16B01
   - R16B02
-script: mix test
+script: mix test --no-start
 install: mix deps.get
 before_install:
   - mkdir -p vendor/elixir
