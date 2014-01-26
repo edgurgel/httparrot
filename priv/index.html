@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv='content-type' value='text/html;charset=utf8'>
+  <meta name='generator' value='Ronn/v0.7.3 (http://github.com/rtomayko/ronn/tree/0.7.3)'>
+  <title>httparrot(1): HTTP Client Testing Service</title>
+  <style type='text/css' media='all'>
+  /* style: man */
+  body#manpage {margin:0}
+  .mp {max-width:100ex;padding:0 9ex 1ex 4ex}
+  .mp p,.mp pre,.mp ul,.mp ol,.mp dl {margin:0 0 20px 0}
+  .mp h2 {margin:10px 0 0 0}
+  .mp > p,.mp > pre,.mp > ul,.mp > ol,.mp > dl {margin-left:8ex}
+  .mp h3 {margin:0 0 0 4ex}
+  .mp dt {margin:0;clear:left}
+  .mp dt.flush {float:left;width:8ex}
+  .mp dd {margin:0 0 0 9ex}
+  .mp h1,.mp h2,.mp h3,.mp h4 {clear:left}
+  .mp pre {margin-bottom:20px}
+  .mp pre+h2,.mp pre+h3 {margin-top:22px}
+  .mp h2+pre,.mp h3+pre {margin-top:5px}
+  .mp img {display:block;margin:auto}
+  .mp h1.man-title {display:none}
+  .mp,.mp code,.mp pre,.mp tt,.mp kbd,.mp samp,.mp h3,.mp h4 {font-family:monospace;font-size:14px;line-height:1.42857142857143}
+  .mp h2 {font-size:16px;line-height:1.25}
+  .mp h1 {font-size:20px;line-height:2}
+  .mp {text-align:justify;background:#fff}
+  .mp,.mp code,.mp pre,.mp pre code,.mp tt,.mp kbd,.mp samp {color:#131211}
+  .mp h1,.mp h2,.mp h3,.mp h4 {color:#030201}
+  .mp u {text-decoration:underline}
+  .mp code,.mp strong,.mp b {font-weight:bold;color:#131211}
+  .mp em,.mp var {font-style:italic;color:#232221;text-decoration:none}
+  .mp a,.mp a:link,.mp a:hover,.mp a code,.mp a pre,.mp a tt,.mp a kbd,.mp a samp {color:#0000ff}
+  .mp b.man-ref {font-weight:normal;color:#434241}
+  .mp pre {padding:0 4ex}
+  .mp pre code {font-weight:normal;color:#434241}
+  .mp h2+pre,h3+pre {padding-left:0}
+  ol.man-decor,ol.man-decor li {margin:3px 0 10px 0;padding:0;float:left;width:33%;list-style-type:none;text-transform:uppercase;color:#999;letter-spacing:1px}
+  ol.man-decor {width:100%}
+  ol.man-decor li.tl {text-align:left}
+  ol.man-decor li.tc {text-align:center;letter-spacing:4px}
+  ol.man-decor li.tr {text-align:right;float:right}
+  </style>
+  <style type='text/css' media='all'>
+  /* style: 80c */
+  .mp {max-width:86ex}
+  ul {list-style: None; margin-left: 1em!important}
+  .man-navigation {left:101ex}
+  </style>
+</head>
+
+<body id='manpage'>
+<a href="http://github.com/edgurgel/httparrot"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+
+
+<div class='mp'>
+<h1>httparrot(1): HTTP Request &amp; Response Service</h1>
+<p>Freely hosted in <a href="http://httparrot.herokuapp.com">HTTP</a> &amp; <a href="https://httparrot.herokuapp.com">HTTPS</a>
+
+<h2 id="ENDPOINTS">ENDPOINTS</h2>
+
+<ul>
+<li><a href="/" data-bare-link="true"><code>/</code></a> This page.</li>
+<li><a href="/ip" data-bare-link="true"><code>/ip</code></a> Returns Origin IP.</li>
+<li><a href="/user-agent" data-bare-link="true"><code>/user-agent</code></a> Returns user-agent.</li>
+<li><a href="/headers" data-bare-link="true"><code>/headers</code></a> Returns header dict.</li>
+<li><a href="/get" data-bare-link="true"><code>/get</code></a> Returns GET data.</li>
+<li><code>/post</code> Returns POST data.</li>
+<li><code>/put</code> Returns PUT data.</li>
+<li><code>/patch</code> Returns PATCH data.</li>
+<li><code>/delete</code> Returns DELETE data</li>
+<li><a href="/status/418"><code>/status/:code</code></a> Returns given HTTP Status code.</li>
+<li><a href="/response-headers?Content-Type=text/plain;%20charset=UTF-8&amp;Server=httparrot"><code>/response-headers?key=val</code></a> Returns given response headers.</li>
+<li><a href="/redirect/6"><code>/redirect/:n</code></a> 302 Redirects <em>n</em> times.</li>
+<li><a href="/redirect-to?url=http://example.com/"><code>/redirect-to?url=foo</code></a> 302 Redirects to the <em>foo</em> URL.</li>
+<li><a href="/relative-redirect/6"><code>/relative-redirect/:n</code></a> 302 Relative redirects <em>n</em> times.</li>
+<li><a href="/cookies" data-bare-link="true"><code>/cookies</code></a> Returns cookie data.</li>
+<li><a href="/cookies/set?k1=v1&amp;k2=v2"><code>/cookies/set?name=value</code></a> Sets one or more simple cookies.</li>
+<li><a href="/cookies/delete?k1&amp;k2"><code>/cookies/delete?name</code></a> Deletes one or more simple cookies.</li>
+<li><a href="/basic-auth/user/passwd"><code>/basic-auth/:user/:passwd</code></a> Challenges HTTPBasic Auth.</li>
+<li><a href="/hidden-basic-auth/user/passwd"><code>/hidden-basic-auth/:user/:passwd</code></a> 404'd BasicAuth.</li>
+<li><a href="/stream/20"><code>/stream/:n</code></a> Streams <em>n</em>–100 lines.</li>
+<li><a href="/delay/3"><code>/delay/:n</code></a> Delays responding for <em>n</em>–10 seconds.</li>
+<li><a href="/html" data-bare-link="true"><code>/html</code></a> Renders an HTML Page.</li>
+<li><a href="/robots.txt" data-bare-link="true"><code>/robots.txt</code></a> Returns some robots.txt rules.</li>
+<li><a href="/deny" data-bare-link="true"><code>/deny</code></a> Denied by robots.txt file.</li>
+</ul>
+
+
+<h2 id="DESCRIPTION">DESCRIPTION</h2>
+
+<p>Testing an HTTP Library can become difficult sometimes. <a href="http://postbin.org">Postbin</a> is fantastic
+for testing POST requests, but not much else. This exists to cover all kinds of HTTP
+scenarios. Additional endpoints are being considered (e.g. <code>/deflate</code>).</p>
+
+<p>All endpoint responses are JSON-encoded.</p>
+
+<h2 id="EXAMPLES">EXAMPLES</h2>
+
+<h3 id="-curl-http-httparrot-org-ip">$ curl http://httparrot.herokuapp.com/ip</h3>
+
+<pre><code>{"origin": "24.127.96.129"}
+</code></pre>
+
+<h3 id="-curl-http-httparrot-org-user-agent">$ curl http://httparrot.herokuapp.com/user-agent</h3>
+
+<pre><code>{"user-agent": "curl/7.19.7 (universal-apple-darwin10.0) libcurl/7.19.7 OpenSSL/0.9.8l zlib/1.2.3"}
+</code></pre>
+
+<h3 id="-curl-http-httparrot-org-get">$ curl http://httparrot.herokuapp.com/get</h3>
+
+<pre><code>{
+   "args": {},
+   "headers": {
+      "Accept": "*/*",
+      "Connection": "close",
+      "Content-Length": "",
+      "Content-Type": "",
+      "Host": "httparrot.herokuapp.com",
+      "User-Agent": "curl/7.19.7 (universal-apple-darwin10.0) libcurl/7.19.7 OpenSSL/0.9.8l zlib/1.2.3"
+   },
+   "origin": "24.127.96.129",
+   "url": "http://httparrot.herokuapp.com/get"
+}
+</code></pre>
+
+<h3 id="-curl-I-http-httparrot-org-status-418">$ curl -I http://httparrot.herokuapp.com/status/418</h3>
+
+<pre><code>HTTP/1.1 418 I'M A TEAPOT
+Server: nginx/0.7.67
+Date: Mon, 13 Jun 2011 04:25:38 GMT
+Connection: close
+x-more-info: http://tools.ietf.org/html/rfc2324
+Content-Length: 135
+</code></pre>
+
+<h2 id="SEE-ALSO">SEE ALSO</h2>
+
+<p><a href="http://httpbin.org" data-bare-link="true">http://httpbin.org</a></p>
+
+</div>
+
+</body>
+</html>

@@ -3,7 +3,8 @@ defmodule HTTParrot do
 
   def start(_type, _args) do
     dispatch = :cowboy_router.compile([
-      {:_, [ {'/ip', HTTParrot.IPHandler, []},
+      {:_, [ {'/', :cowboy_static, {:priv_file, :httparrot, "index.html"}},
+             {'/ip', HTTParrot.IPHandler, []},
              {'/user-agent', HTTParrot.UserAgentHandler, []},
              {'/headers', HTTParrot.HeadersHandler, []},
              {'/get', HTTParrot.GetHandler, []},
