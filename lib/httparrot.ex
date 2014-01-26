@@ -24,6 +24,7 @@ defmodule HTTParrot do
              {'/delay/:n', HTTParrot.DelayedHandler, []},
              {'/html', :cowboy_static, {:priv_file, :httparrot, "html.html"}},
              {'/deny', HTTParrot.DenyHandler, []},
+             {'/robots.txt', HTTParrot.RobotsHandler, []},
              {'/base64/:value', HTTParrot.Base64Handler, []} ] }
     ])
     {:ok, http_port} = :application.get_env(:httparrot, :http_port)
