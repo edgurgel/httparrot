@@ -8,7 +8,7 @@ defmodule HTTParrot.StatusCodeHandler do
   end
 
   def allowed_methods(req, state) do
-    {["GET"], req, state}
+    {["GET", "HEAD", "OPTIONS"], req, state}
   end
 
   def content_types_provided(req, state) do
