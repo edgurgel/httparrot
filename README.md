@@ -31,6 +31,8 @@ http://httpbin.org clone
 * /robots.txt Returns some robots.txt rules.
 * /deny Denied by robots.txt file.
 * /cache Returns 200 unless an If-Modified-Since header is provided, when it returns a 304 Not Modified.
+* /base64/:value Decodes base64url-encoded string
+* /websocket Echo message received through websocket
 
 ## TODO
 
@@ -39,6 +41,4 @@ http://httpbin.org clone
 * /response-headers?key=val Returns given response headers.
 * /relative-redirect/:n 302 Relative redirects n times.
 * /digest-auth/:qop/:user/:passwd Challenges HTTP Digest Auth.
-* /robots.txt Returns some robots.txt rules.
-* /deny Denied by robots.txt file.
 * /cache Returns 200 unless an If-Modified-Since header is provided, when it returns a 304 Not Modified.
