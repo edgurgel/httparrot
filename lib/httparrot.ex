@@ -25,7 +25,8 @@ defmodule HTTParrot do
              {'/html', :cowboy_static, {:priv_file, :httparrot, "html.html"}},
              {'/deny', HTTParrot.DenyHandler, []},
              {'/robots.txt', HTTParrot.RobotsHandler, []},
-             {'/base64/:value', HTTParrot.Base64Handler, []} ] }
+             {'/base64/:value', HTTParrot.Base64Handler, []},
+             {'/websocket', HTTParrot.WebsocketHandler, []} ] }
     ])
     {:ok, http_port} = :application.get_env(:httparrot, :http_port)
     ssl = :application.get_env(:httparrot, :ssl, false)
