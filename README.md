@@ -16,9 +16,9 @@ http://httpbin.org clone
 * /gzip Returns gzip-encoded data.
 * /status/:code Returns given HTTP Status code.
 * /response-headers?key=val Returns given response headers.
-* /redirect/:n 302 Redirects n times.
-* /redirect-to?url=foo 302 Redirects to the foo URL.
-* /relative-redirect/:n 302 Relative redirects n times.
+* /redirect/:n 301 Redirects n times.
+* /redirect-to?url=foo 301 Redirects to the foo URL.
+* /relative-redirect/:n 301 Relative redirects n times.
 * /cookies Returns cookie data.
 * /cookies/set?name=value Sets one or more simple cookies.
 * /cookies/delete?name Deletes one or more simple cookies.
@@ -36,9 +36,7 @@ http://httpbin.org clone
 
 ## TODO
 
-* / This page.
 * /gzip Returns gzip-encoded data.
 * /response-headers?key=val Returns given response headers.
-* /relative-redirect/:n 302 Relative redirects n times.
 * /digest-auth/:qop/:user/:passwd Challenges HTTP Digest Auth.
 * /cache Returns 200 unless an If-Modified-Since header is provided, when it returns a 304 Not Modified.
