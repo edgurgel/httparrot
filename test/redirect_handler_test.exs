@@ -35,18 +35,18 @@ defmodule HTTParrot.RedirectHandlerTest do
     assert validate :cowboy_req
   end
 
-  test "moved_temporarily returns 'redirect/n-1' if n > 1" do
+  test "moved_permanently returns 'redirect/n-1' if n > 1" do
     expect(:cowboy_req, :host_url, 1, {"host", :req2})
 
-    assert moved_temporarily(:req1, 4) == {{true, "host/redirect/3"}, :req2, nil}
+    assert moved_permanently(:req1, 4) == {{true, "host/redirect/3"}, :req2, nil}
 
     assert validate :cowboy_req
   end
 
-  test "moved_temporarily returns '/get' if n = 1" do
+  test "moved_permanently returns '/get' if n = 1" do
     expect(:cowboy_req, :host_url, 1, {"host", :req2})
 
-    assert moved_temporarily(:req1, 1) == {{true, "host/get"}, :req2, nil}
+    assert moved_permanently(:req1, 1) == {{true, "host/get"}, :req2, nil}
 
     assert validate :cowboy_req
   end

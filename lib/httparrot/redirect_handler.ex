@@ -24,7 +24,7 @@ defmodule HTTParrot.RedirectHandler do
   def resource_exists(req, state), do: {false, req, state}
   def previously_existed(req, state), do: {true, req, state}
 
-  def moved_temporarily(req, n) do
+  def moved_permanently(req, n) do
     {host_url, req} = :cowboy_req.host_url(req)
     url = if n > 1, do: "/redirect/#{n-1}", else: "/get"
     {{true, host_url <> url}, req, nil}
