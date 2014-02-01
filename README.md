@@ -21,6 +21,7 @@ http://httpbin.org clone
 * /relative-redirect/:n 301 Relative redirects n times.
 * /cookies Returns cookie data.
 * /cookies/set?name=value Sets one or more simple cookies.
+* /cookies/set/name/value Sets one cookie .
 * /cookies/delete?name Deletes one or more simple cookies.
 * /basic-auth/:user/:passwd Challenges HTTPBasic Auth.
 * /hidden-basic-auth/:user/:passwd 404'd BasicAuth.
