@@ -17,7 +17,7 @@ defmodule HTTParrot do
              {'/redirect-to', HTTParrot.RedirectToHandler, []},
              {'/relative-redirect/:n', HTTParrot.RelativeRedirectHandler, []},
              {'/cookies', HTTParrot.CookiesHandler, []},
-             {'/cookies/set', HTTParrot.SetCookiesHandler, []},
+             {'/cookies/set[/:name/:value]', HTTParrot.SetCookiesHandler, []},
              {'/cookies/delete', HTTParrot.DeleteCookiesHandler, []},
              {'/basic-auth/:user/:passwd', HTTParrot.BasicAuthHandler, []},
              {'/hidden-basic-auth/:user/:passwd', HTTParrot.HiddenBasicAuthHandler, []},

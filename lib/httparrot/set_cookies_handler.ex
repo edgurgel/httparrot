@@ -13,7 +13,13 @@ defmodule HTTParrot.SetCookiesHandler do
 
   def malformed_request(req, state) do
     {qs_vals, req} = :cowboy_req.qs_vals(req)
-    if Enum.empty?(qs_vals), do: {true, req, state}, else: {false, req, qs_vals}
+    {name, req} = :cowboy_req.binding(:name, req, nil)
+    if name do
+      {value, req} = :cowboy_req.binding(:value, req, nil)
+      {false, req, Dict.merge([{name, value}], qs_vals)}
+    else
+      if Enum.empty?(qs_vals), do: {true, req, state}, else: {false, req, qs_vals}
+    end
   end
 
   def content_types_provided(req, state) do
