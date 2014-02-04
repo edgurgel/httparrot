@@ -2,7 +2,6 @@ defmodule HTTParrot.DenyHandler do
   @moduledoc """
   Returns a simple HTML page.
   """
-  alias HTTParrot.GeneralRequestInfo
 
   def init(_transport, _req, _opts) do
     {:upgrade, :protocol, :cowboy_rest}
