@@ -27,6 +27,7 @@ defmodule HTTParrot do
              {'/deny', HTTParrot.DenyHandler, []},
              {'/robots.txt', HTTParrot.RobotsHandler, []},
              {'/base64/:value', HTTParrot.Base64Handler, []},
+             {'/image', HTTParrot.ImageHandler, []},
              {'/websocket', HTTParrot.WebsocketHandler, []} ] }
     ])
     {:ok, http_port} = :application.get_env(:httparrot, :http_port)
