@@ -32,7 +32,8 @@ http://httpbin.org clone
 * /robots.txt Returns some robots.txt rules.
 * /deny Denied by robots.txt file.
 * /cache Returns 200 unless an If-Modified-Since header is provided, when it returns a 304 Not Modified.
-* /base64/:value Decodes base64url-encoded string
+* /base64/:value Decodes base64url-encoded string.
+* /image Return an image based on Accept header.
 * /websocket Echo message received through websocket
 
 ## TODO
