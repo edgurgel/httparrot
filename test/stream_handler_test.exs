@@ -55,7 +55,7 @@ defmodule HTTParrot.StreamHandlerTest do
     assert {{:chunked, func}, :req2, nil} = get_json(:req1, 2)
     assert is_function(func)
 
-    send_func = fn(body) -> self <- {:chunk, body} end
+    send_func = fn(body) -> send(self, {:chunk, body}) end
     func.(send_func)
 
     assert_receive {:chunk, :json1}
