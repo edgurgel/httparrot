@@ -3,7 +3,7 @@ defmodule Httparrot.Mixfile do
 
   def project do
     [ app: :httparrot,
-      version: "0.0.2",
+      version: "0.0.3",
       name: "HTTParrot",
       elixir: "~> 0.12.4",
       deps: deps(Mix.env) ]
