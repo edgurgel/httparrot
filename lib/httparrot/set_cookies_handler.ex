@@ -16,7 +16,7 @@ defmodule HTTParrot.SetCookiesHandler do
     {name, req} = :cowboy_req.binding(:name, req, nil)
     if name do
       {value, req} = :cowboy_req.binding(:value, req, nil)
-      {false, req, Dict.merge([{name, value}], qs_vals)}
+      {false, req, List.keystore(qs_vals, name, 0, {name, value})}
     else
       if Enum.empty?(qs_vals), do: {true, req, state}, else: {false, req, qs_vals}
     end

@@ -26,7 +26,7 @@ defmodule HTTParrot.SetCookiesHandlerTest do
     expect(:cowboy_req, :binding, [{[:name, :req2, nil], {"name", :req3}},
                                    {[:value, :req3, nil], {"value", :req4}}])
 
-    assert malformed_request(:req1, :state) == {false, :req4, [{"name", "value2"}]}
+    assert malformed_request(:req1, :state) == {false, :req4, [{"name", "value"}]}
 
     assert validate :cowboy_req
   end
