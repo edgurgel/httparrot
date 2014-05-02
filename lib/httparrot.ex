@@ -25,6 +25,7 @@ defmodule HTTParrot do
              {'/delay/:n', HTTParrot.DelayedHandler, []},
              {'/html', :cowboy_static, {:priv_file, :httparrot, "html.html"}},
              {'/deny', HTTParrot.DenyHandler, []},
+             {'/cache', HTTParrot.CacheHandler, []},
              {'/robots.txt', HTTParrot.RobotsHandler, []},
              {'/base64/:value', HTTParrot.Base64Handler, []},
              {'/image', HTTParrot.ImageHandler, []},
