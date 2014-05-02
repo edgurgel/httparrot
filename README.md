@@ -38,7 +38,6 @@ http://httpbin.org clone
 
 ## TODO
 
-* /gzip Returns gzip-encoded data.
-* /response-headers?key=val Returns given response headers.
-* /digest-auth/:qop/:user/:passwd Challenges HTTP Digest Auth.
-* /cache Returns 200 unless an If-Modified-Since header is provided, when it returns a 304 Not Modified.
+* [ ] /gzip Returns gzip-encoded data.
+* [ ] /response-headers?key=val Returns given response headers.
+* [ ] /digest-auth/:qop/:user/:passwd Challenges HTTP Digest Auth.
