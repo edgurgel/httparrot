@@ -43,7 +43,7 @@ defmodule HTTParrot.PHandler do
       end
     else
       # Octet-stream
-      body = :base64.encode(body)
+      body = Base.encode64(body)
       post(req, [form: [{}], data: "data:application/octet-stream;base64," <> body, json: nil])
     end
   end

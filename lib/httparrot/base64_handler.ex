@@ -8,31 +8,37 @@ defmodule HTTParrot.Base64Handler do
   end
 
   def allowed_methods(req, state) do
-    {["GET", "HEAD", "OPTIONS"], req, state}
+    {~W(GET HEAD OPTIONS), req, state}
   end
 
   def content_types_provided(req, state) do
     {[{{"application", "octet-stream", []}, :get_binary}], req, state}
   end
 
-  def get_binary(req, state) do
+  def malformed_request(req, state) do
     {value, req} = :cowboy_req.binding(:value, req)
-    value = decode(value)
-    {value, req, state}
-  end
 
-  defp decode(bin) when is_binary(bin) do
-    bin = case rem(byte_size(bin), 4) do
-      2 -> << bin :: binary, "==" >>
-      3 -> << bin :: binary, "=" >>
-      _ -> bin
+    case decode(value) do
+      { :ok, result } -> {false, req, result}
+        :error -> {true, req, state}
     end
-    bc <<x>> inbits :base64.decode(bin), x != ?=, do: <<urldecode_digit(x)>>
   end
 
-  defp urldecode_digit(?_), do: ?/
-  defp urldecode_digit(?-), do: ?+
-  defp urldecode_digit(d), do: d
+  defp decode(value) do
+    pad(value) |> Base.url_decode64
+  end
+
+  defp pad(value) do
+    case byte_size(value) |> rem(4) do
+      2 -> value <> "=="
+      3 -> value <> "="
+      _ -> value
+    end
+  end
+
+  def get_binary(req, result) do
+    {result, req, result}
+  end
 
   def terminate(_, _, _), do: :ok
 end
