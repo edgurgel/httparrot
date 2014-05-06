@@ -11,11 +11,21 @@ defmodule HTTParrot.Base64HandlerTest do
     unload :cowboy_req
   end
 
-  test "returns decoded base64 urlsafe" do
+  test "halts with error" do
+    expect(:cowboy_req, :binding, [{[:value, :req1], {"I=", :req2}}])
+
+    assert malformed_request(:req1, :state) == {true, :req2, :state}
+    assert validate(:cowboy_req)
+  end
+
+  test "proceeds with decoded base64 urlsafe" do
     expect(:cowboy_req, :binding, [{[:value, :req1], {"LytiYXNlNjQrLw", :req2}}])
 
-    assert get_binary(:req1, :state) == { "/+base64+/", :req2, :state}
+    assert malformed_request(:req1, :state) == {false, :req2, "/+base64+/"}
+    assert validate(:cowboy_req)
+  end
 
-    assert validate :cowboy_req
+  test "returns value from state" do
+    assert get_binary(:req, :decoded) == {:decoded, :req, :decoded}
   end
 end
