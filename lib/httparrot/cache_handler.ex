@@ -9,7 +9,7 @@ defmodule HTTParrot.CacheHandler do
   end
 
   def allowed_methods(req, state) do
-    {["GET", "HEAD", "OPTIONS"], req, state}
+    {~W(GET HEAD OPTIONS), req, state}
   end
 
   def last_modified(req, state) do

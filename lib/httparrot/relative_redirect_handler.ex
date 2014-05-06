@@ -8,7 +8,7 @@ defmodule HTTParrot.RelativeRedirectHandler do
   end
 
   def allowed_methods(req, state) do
-    {["GET", "HEAD", "OPTIONS"], req, state}
+    {~W(GET HEAD OPTIONS), req, state}
   end
 
   def malformed_request(req, state) do
