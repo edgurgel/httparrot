@@ -1,5 +1,5 @@
 defmodule HTTParrot do
-  use Application.Behaviour
+  use Application
 
   def start(_type, _args) do
     dispatch = :cowboy_router.compile([

@@ -5,7 +5,7 @@ defmodule Httparrot.Mixfile do
     [ app: :httparrot,
       version: "0.1.1",
       name: "HTTParrot",
-      elixir: "~> 0.13.3",
+      elixir: "~> 0.14.0",
       deps: deps ]
   end
 
@@ -20,7 +20,7 @@ defmodule Httparrot.Mixfile do
 
   defp deps do
     [ {:cowboy, github: "extend/cowboy", tag: "0.9.0"},
-      {:jsex, '~> 2.0'},
+      {:jsex, "~> 2.0"},
       {:meck, github: "eproxus/meck", tag: "0.8.2", only: :test } ]
   end
 end
