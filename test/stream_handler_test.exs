@@ -1,5 +1,5 @@
 defmodule HTTParrot.StreamHandlerTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
   import :meck
   import HTTParrot.StreamHandler
 
@@ -7,12 +7,8 @@ defmodule HTTParrot.StreamHandlerTest do
     new :cowboy_req
     new HTTParrot.GeneralRequestInfo
     new JSEX
-  end
-
-  teardown do
-    unload :cowboy_req
-    unload HTTParrot.GeneralRequestInfo
-    unload JSEX
+    on_exit fn -> unload end
+    :ok
   end
 
   test "malformed_request returns false if it's not an integer" do

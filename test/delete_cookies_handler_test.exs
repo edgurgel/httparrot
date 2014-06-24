@@ -5,10 +5,8 @@ defmodule HTTParrot.DeleteCookiesHandlerTest do
 
   setup do
     new :cowboy_req
-  end
-
-  teardown do
-    unload :cowboy_req
+    on_exit fn -> unload end
+    :ok
   end
 
   test "delete cookies and redirect to /cookies " do

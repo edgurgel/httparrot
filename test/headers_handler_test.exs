@@ -6,11 +6,8 @@ defmodule HTTParrot.HeadersHandlerTest do
   setup do
     new :cowboy_req
     new JSEX
-  end
-
-  teardown do
-    unload :cowboy_req
-    unload JSEX
+    on_exit fn -> unload end
+    :ok
   end
 
   test "returns prettified json with headers list" do

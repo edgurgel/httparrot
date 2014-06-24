@@ -5,10 +5,8 @@ defmodule HTTParrot.Base64HandlerTest do
 
   setup do
     new :cowboy_req
-  end
-
-  teardown do
-    unload :cowboy_req
+    on_exit fn -> unload end
+    :ok
   end
 
   test "halts with error" do

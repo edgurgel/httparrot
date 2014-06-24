@@ -5,10 +5,8 @@ defmodule HTTParrot.SetCookiesHandlerTest do
 
   setup do
     new :cowboy_req
-  end
-
-  teardown do
-    unload :cowboy_req
+    on_exit fn -> unload end
+    :ok
   end
 
   test "malformed_request returns false if /name/value is sent" do

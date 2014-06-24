@@ -5,11 +5,10 @@ defmodule HTTParrotTest do
 
   setup do
     new :cowboy_req
+    on_exit fn -> unload end
+    :ok
   end
 
-  teardown do
-    unload :cowboy_req
-  end
 
   test "'prettify_json' prettifies body response if it's a JSON" do
     expect(:cowboy_req, :reply, [{[:status, [{"content-length", '14'}], "{\n  \"a\": \"b\"\n}", :req1], {:ok, :req2}}])

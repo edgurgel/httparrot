@@ -6,11 +6,8 @@ defmodule HTTParrot.CookiesHandlerTest do
   setup do
     new :cowboy_req
     new JSEX
-  end
-
-  teardown do
-    unload :cowboy_req
-    unload JSEX
+    on_exit fn -> unload end
+    :ok
   end
 
   test "returns a JSON with all the cookies o/" do

@@ -7,12 +7,8 @@ defmodule HTTParrot.DeleteHandlerTest do
     new :cowboy_req
     new HTTParrot.GeneralRequestInfo
     new JSEX
-  end
-
-  teardown do
-    unload :cowboy_req
-    unload HTTParrot.GeneralRequestInfo
-    unload JSEX
+    on_exit fn -> unload end
+    :ok
   end
 
   test "returns prettified json with query values, headers, url and origin" do

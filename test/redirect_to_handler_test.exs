@@ -5,10 +5,8 @@ defmodule HTTParrot.RedirectToHandlerTest do
 
   setup do
     new :cowboy_req
-  end
-
-  teardown do
-    unload :cowboy_req
+    on_exit fn -> unload end
+    :ok
   end
 
   test "malformed_request returns true if no 'url' is defined" do

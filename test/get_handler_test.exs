@@ -6,11 +6,8 @@ defmodule HTTParrot.GetHandlerTest do
   setup do
     new HTTParrot.GeneralRequestInfo
     new JSEX
-  end
-
-  teardown do
-    unload HTTParrot.GeneralRequestInfo
-    unload JSEX
+    on_exit fn -> unload end
+    :ok
   end
 
   test "returns prettified json with query values, headers, url and origin" do
