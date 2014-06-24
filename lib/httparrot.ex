@@ -54,7 +54,7 @@ defmodule HTTParrot do
   def prettify_json(status, headers, body, req) do
     if JSEX.is_json? body do
       body = JSEX.prettify!(body)
-      headers = List.keystore(headers, "content-length", 0, {"content-length", integer_to_list(String.length(body))})
+      headers = List.keystore(headers, "content-length", 0, {"content-length", Integer.to_char_list(String.length(body))})
       {:ok, req} = :cowboy_req.reply(status, headers, body, req)
     end
     req

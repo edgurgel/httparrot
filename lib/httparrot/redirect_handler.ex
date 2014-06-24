@@ -14,7 +14,7 @@ defmodule HTTParrot.RedirectHandler do
   def malformed_request(req, state) do
     {n, req} = :cowboy_req.binding(:n, req)
     try do
-      n = n |> binary_to_integer |> max(1)
+      n = n |> String.to_integer |> max(1)
       {false, req, n}
     rescue
       ArgumentError -> {true, req, state}

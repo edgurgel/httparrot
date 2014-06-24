@@ -18,7 +18,7 @@ defmodule HTTParrot.StreamHandler do
   def malformed_request(req, state) do
     {n, req} = :cowboy_req.binding(:n, req)
     try do
-      n = n |> binary_to_integer |> min(100) |> max(1)
+      n = n |> String.to_integer |> min(100) |> max(1)
       {false, req, n}
     rescue
       ArgumentError -> {true, req, state}
