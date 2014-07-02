@@ -9,7 +9,7 @@ defmodule HTTParrot.RedirectHandlerTest do
     :ok
   end
 
-  test "malformed_request returns false if it's not an integer" do
+  test "malformed_request returns true if it's not an integer" do
     expect(:cowboy_req, :binding, [{[:n, :req1], {"a2B=", :req2}}])
 
     assert malformed_request(:req1, :state) == {true, :req2, :state}
