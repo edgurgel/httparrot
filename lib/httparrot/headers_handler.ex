@@ -1,11 +1,5 @@
 defmodule HTTParrot.HeadersHandler do
-  def init(_transport, _req, _opts) do
-    {:upgrade, :protocol, :cowboy_rest}
-  end
-
-  def allowed_methods(req, state) do
-    {["GET"], req, state}
-  end
+  use HTTParrot.Cowboy, methods: ~w(GET HEAD OPTIONS)
 
   def content_types_provided(req, state) do
     {[{{"application", "json", []}, :get_json}], req, state}
@@ -19,6 +13,4 @@ defmodule HTTParrot.HeadersHandler do
   defp response(headers) do
     [headers: headers] |> JSEX.encode!
   end
-
-  def terminate(_, _, _), do: :ok
 end

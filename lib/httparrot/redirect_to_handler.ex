@@ -2,14 +2,7 @@ defmodule HTTParrot.RedirectToHandler do
   @moduledoc """
   Redirects to the foo URL.
   """
-
-  def init(_transport, _req, _opts) do
-    {:upgrade, :protocol, :cowboy_rest}
-  end
-
-  def allowed_methods(req, state) do
-    {~W(GET HEAD OPTIONS), req, state}
-  end
+  use HTTParrot.Cowboy, methods: ~w(GET HEAD OPTIONS)
 
   def malformed_request(req, state) do
     {url, req} = :cowboy_req.qs_val("url", req, nil)
@@ -22,6 +15,4 @@ defmodule HTTParrot.RedirectToHandler do
   def moved_permanently(req, url) do
     {{true, url}, req, url}
   end
-
-  def terminate(_, _, _), do: :ok
 end

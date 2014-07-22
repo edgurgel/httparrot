@@ -1,13 +1,6 @@
 defmodule HTTParrot.DelayedHandler do
   alias HTTParrot.GeneralRequestInfo
-
-  def init(_transport, _req, _opts) do
-    {:upgrade, :protocol, :cowboy_rest}
-  end
-
-  def allowed_methods(req, state) do
-    {["GET"], req, state}
-  end
+  use HTTParrot.Cowboy, methods: ~w(GET HEAD OPTIONS)
 
   def malformed_request(req, state) do
     {n, req} = :cowboy_req.binding(:n, req)
@@ -32,6 +25,4 @@ defmodule HTTParrot.DelayedHandler do
   defp response(info) do
     info |> JSEX.encode!
   end
-
-  def terminate(_, _, _), do: :ok
 end

@@ -3,14 +3,7 @@ defmodule HTTParrot.GetHandler do
   Returns GET data.
   """
   alias HTTParrot.GeneralRequestInfo
-
-  def init(_transport, _req, _opts) do
-    {:upgrade, :protocol, :cowboy_rest}
-  end
-
-  def allowed_methods(req, state) do
-    {~W(GET HEAD OPTIONS), req, state}
-  end
+  use HTTParrot.Cowboy, methods: ~w(GET HEAD OPTIONS)
 
   def content_types_provided(req, state) do
     {[{{"application", "json", []}, :get_json}], req, state}
@@ -24,6 +17,4 @@ defmodule HTTParrot.GetHandler do
   defp response(info) do
     info |> JSEX.encode!
   end
-
-  def terminate(_, _, _), do: :ok
 end

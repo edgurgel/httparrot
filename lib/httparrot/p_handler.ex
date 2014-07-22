@@ -57,6 +57,4 @@ defmodule HTTParrot.PHandler do
   defp response(info, body) do
     info ++ body |> JSEX.encode!
   end
-
-  def terminate(_, _, _), do: :ok
 end

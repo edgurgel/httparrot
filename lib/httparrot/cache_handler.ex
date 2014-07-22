@@ -3,14 +3,7 @@ defmodule HTTParrot.CacheHandler do
   Returns 200 unless an If-Modified-Since or If-None-Match header is provided, when it returns a 304.
   """
   alias HTTParrot.GeneralRequestInfo
-
-  def init(_transport, _req, _opts) do
-    {:upgrade, :protocol, :cowboy_rest}
-  end
-
-  def allowed_methods(req, state) do
-    {~W(GET HEAD OPTIONS), req, state}
-  end
+  use HTTParrot.Cowboy, methods: ~w(GET HEAD OPTIONS)
 
   def last_modified(req, state) do
     {{{2012, 9, 21}, {22, 36, 14}}, req, state}
@@ -28,6 +21,4 @@ defmodule HTTParrot.CacheHandler do
   defp response(info) do
     info |> JSEX.encode!
   end
-
-  def terminate(_, _, _), do: :ok
 end

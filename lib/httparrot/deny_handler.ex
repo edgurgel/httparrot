@@ -2,14 +2,7 @@ defmodule HTTParrot.DenyHandler do
   @moduledoc """
   Returns a simple HTML page.
   """
-
-  def init(_transport, _req, _opts) do
-    {:upgrade, :protocol, :cowboy_rest}
-  end
-
-  def allowed_methods(req, state) do
-    {~W(GET HEAD OPTIONS), req, state}
-  end
+  use HTTParrot.Cowboy, methods: ~w(GET HEAD OPTIONS)
 
   def content_types_provided(req, state) do
     {[{{"text", "plain", []}, :get_plain}], req, state}
@@ -30,6 +23,4 @@ defmodule HTTParrot.DenyHandler do
   def get_plain(req, state) do
     {@body, req, state}
   end
-
-  def terminate(_, _, _), do: :ok
 end

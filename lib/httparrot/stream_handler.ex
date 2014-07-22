@@ -3,14 +3,7 @@ defmodule HTTParrot.StreamHandler do
   Returns GET data.
   """
   alias HTTParrot.GeneralRequestInfo
-
-  def init(_transport, _req, _opts) do
-    {:upgrade, :protocol, :cowboy_rest}
-  end
-
-  def allowed_methods(req, state) do
-    {["GET"], req, state}
-  end
+  use HTTParrot.Cowboy, methods: ~w(GET HEAD OPTIONS)
 
   @doc """
     `n` must be an integer between 1-100
@@ -41,6 +34,4 @@ defmodule HTTParrot.StreamHandler do
       end
     end
   end
-
-  def terminate(_, _, _), do: :ok
 end

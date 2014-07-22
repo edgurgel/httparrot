@@ -2,14 +2,7 @@ defmodule HTTParrot.SetCookiesHandler do
   @moduledoc """
   Sets one or more simple cookies.
   """
-
-  def init(_transport, _req, _opts) do
-    {:upgrade, :protocol, :cowboy_rest}
-  end
-
-  def allowed_methods(req, state) do
-    {["GET"], req, state}
-  end
+  use HTTParrot.Cowboy, methods: ~w(GET HEAD OPTIONS)
 
   def malformed_request(req, state) do
     {qs_vals, req} = :cowboy_req.qs_vals(req)
@@ -37,6 +30,4 @@ defmodule HTTParrot.SetCookiesHandler do
   defp set_cookie(name, value, req) do
     :cowboy_req.set_resp_cookie(name, value, [path: "/"], req)
   end
-
-  def terminate(_, _, _), do: :ok
 end

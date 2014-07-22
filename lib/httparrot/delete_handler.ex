@@ -3,14 +3,7 @@ defmodule HTTParrot.DeleteHandler do
   Returns DELETE data.
   """
   alias HTTParrot.GeneralRequestInfo
-
-  def init(_transport, _req, _opts) do
-    {:upgrade, :protocol, :cowboy_rest}
-  end
-
-  def allowed_methods(req, state) do
-    {["DELETE"], req, state}
-  end
+  use HTTParrot.Cowboy, methods: ~w(DELETE)
 
   def delete_resource(req, state) do
     {info, req} = GeneralRequestInfo.retrieve(req)
@@ -21,6 +14,4 @@ defmodule HTTParrot.DeleteHandler do
   defp response(info) do
     info |> JSEX.encode!
   end
-
-  def terminate(_, _, _), do: :ok
 end

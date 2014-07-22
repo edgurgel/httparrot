@@ -2,14 +2,7 @@ defmodule HTTParrot.RobotsHandler do
   @moduledoc """
   Returns a robots.txt.
   """
-
-  def init(_transport, _req, _opts) do
-    {:upgrade, :protocol, :cowboy_rest}
-  end
-
-  def allowed_methods(req, state) do
-    {~W(GET HEAD OPTIONS), req, state}
-  end
+  use HTTParrot.Cowboy, methods: ~w(GET HEAD OPTIONS)
 
   def content_types_provided(req, state) do
     {[{{"text", "plain", []}, :get_text}], req, state}
@@ -21,6 +14,4 @@ defmodule HTTParrot.RobotsHandler do
   """
 
   def get_text(req, state), do: {@robots, req, state}
-
-  def terminate(_, _, _), do: :ok
 end

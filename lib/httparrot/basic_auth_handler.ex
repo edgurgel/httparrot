@@ -2,13 +2,7 @@ defmodule HTTParrot.BasicAuthHandler do
   @moduledoc """
   Challenges HTTPBasic Auth
   """
-  def init(_transport, _req, _opts) do
-    {:upgrade, :protocol, :cowboy_rest}
-  end
-
-  def allowed_methods(req, state) do
-    {["GET"], req, state}
-  end
+  use HTTParrot.Cowboy, methods: ~w(GET HEAD OPTIONS)
 
   def is_authorized(req, state) do
     {user, req} = :cowboy_req.binding(:user, req)
@@ -31,6 +25,4 @@ defmodule HTTParrot.BasicAuthHandler do
   defp response(user) do
     [authenticated: true, user: user] |> JSEX.encode!
   end
-
-  def terminate(_, _, _), do: :ok
 end
