@@ -1,11 +1,17 @@
 defmodule Httparrot.Mixfile do
   use Mix.Project
 
+  @description """
+    HTTP Request & Response Server. An incomplete clone of http://httpbin.org
+  """
+
   def project do
     [ app: :httparrot,
-      version: "0.3.0",
-      name: "HTTParrot",
+      version: "0.3.1",
       elixir: "~> 0.14.1 or ~> 0.15.0",
+      name: "HTTParrot",
+      description: @description,
+      package: package,
       deps: deps ]
   end
 
@@ -22,5 +28,13 @@ defmodule Httparrot.Mixfile do
     [ {:cowboy, "~> 1.0.0"},
       {:jsex, "~> 2.0"},
       {:meck, github: "eproxus/meck", tag: "0.8.2", only: :test } ]
+  end
+
+  defp package do
+    [ contributors: ["Eduardo Gurgel Pinho"],
+      licenses: ["MIT"],
+      links: [ { "Github", "https://github.com/edgurgel/httparrot" },
+               { "HTTParrot", "http://httparrot.herokuapp.com" },
+               { "httpbin", "http://httpbin.org" } ] ]
   end
 end
