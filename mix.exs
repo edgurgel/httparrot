@@ -19,7 +19,7 @@ defmodule Httparrot.Mixfile do
   end
 
   defp deps do
-    [ {:cowboy, github: "extend/cowboy", tag: "0.9.0"},
+    [ {:cowboy, "~> 1.0.0"},
       {:jsex, "~> 2.0"},
       {:meck, github: "eproxus/meck", tag: "0.8.2", only: :test } ]
   end
