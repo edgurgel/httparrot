@@ -6,7 +6,7 @@ defmodule HTTParrot.GeneralRequestInfo do
     {{ip, _port}, req} = :cowboy_req.peer(req)
 
     ip = :inet_parse.ntoa(ip) |> to_string
-    args = flatten_dict(args)
+    args = group_by_keys(args)
 
     {[args: args, headers: headers, url: url, origin: ip], req}
   end
@@ -14,19 +14,19 @@ defmodule HTTParrot.GeneralRequestInfo do
   @doc """
   Group by keys and if duplicated keys, aggregate them as a list
 
-  iex> flatten_dict([a: "v1", a: "v2", b: "v3"])
+  iex> group_by_keys([a: "v1", a: "v2", b: "v3"])
   %{a: ["v1", "v2"], b: "v3"}
   """
-  @spec flatten_dict(list) :: map
-  def flatten_dict([]), do: %{}
-  def flatten_dict(args) do
-    Enum.group_by(args, %{}, fn {k, _} -> k end)
-      |> Enum.traverse(fn {k1, v1} ->
-           values = Enum.map(v1, fn {_, v2} -> v2 end)
-             |> Enum.reverse
-             |> flatten_if_list_of_one
-           {k1, values}
-         end)
+  @spec group_by_keys(list) :: map
+  def group_by_keys([]), do: %{}
+  def group_by_keys(args) do
+    groups = Enum.group_by(args, %{}, fn {k, _} -> k end)
+    for {k1, v1} <- groups, into: %{} do
+      values = Enum.map(v1, fn {_, v2} -> v2 end)
+        |> Enum.reverse
+        |> flatten_if_list_of_one
+      {k1, values}
+    end
   end
 
   defp flatten_if_list_of_one([h]), do: h
