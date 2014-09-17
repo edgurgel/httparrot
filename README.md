@@ -1,6 +1,6 @@
 # HTTParrot [![Build Status](https://travis-ci.org/edgurgel/httparrot.png?branch=master)](https://travis-ci.org/edgurgel/httparrot)
 
-http://httpbin.org clone
+HTTP server built on top of Cowboy using (mostly) `cowboy_rest` handlers to serve useful endpoints for testing purposes. Its goal is to be as close as possible to [HTTPBin](http://httpbin.org).
 
 ## Endpoints
 
