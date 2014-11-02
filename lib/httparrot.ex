@@ -31,13 +31,12 @@ defmodule HTTParrot do
              {'/image', HTTParrot.ImageHandler, []},
              {'/websocket', HTTParrot.WebsocketHandler, []} ] }
     ])
-    {:ok, http_port} = :application.get_env(:httparrot, :http_port)
-    ssl = :application.get_env(:httparrot, :ssl, false)
-    {:ok, _} = :cowboy.start_http(:http, 100, [port: http_port],
+    {:ok, http_port} = Application.fetch_env(:httparrot, :http_port)
+    :cowboy.start_http(:http, 100, [port: http_port],
                                   [env: [dispatch: dispatch], onresponse: &prettify_json/4])
 
-    if ssl do
-      {:ok, https_port} = :application.get_env(:httparrot, :https_port)
+    if Application.get_env(:httparrot, :ssl, false) do
+      {:ok, https_port} = Application.fetch_env(:httparrot, :https_port)
       priv_dir = :code.priv_dir(:httparrot)
       {:ok, _} = :cowboy.start_https(:https, 100,
         [port: https_port, cacertfile: priv_dir ++ '/ssl/server-ca.crt',
