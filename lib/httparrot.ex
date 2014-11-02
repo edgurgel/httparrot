@@ -31,21 +31,25 @@ defmodule HTTParrot do
              {'/image', HTTParrot.ImageHandler, []},
              {'/websocket', HTTParrot.WebsocketHandler, []} ] }
     ])
+
     {:ok, http_port} = Application.fetch_env(:httparrot, :http_port)
-    :cowboy.start_http(:http, 100, [port: http_port],
-                                  [env: [dispatch: dispatch], onresponse: &prettify_json/4])
+    IO.puts "Starting HTTParrot on port #{http_port}"
+    {:ok, _} = :cowboy.start_http(:http, 100,
+      [port: http_port],
+      [env: [dispatch: dispatch],
+      onresponse: &prettify_json/4])
 
     if Application.get_env(:httparrot, :ssl, false) do
       {:ok, https_port} = Application.fetch_env(:httparrot, :https_port)
       priv_dir = :code.priv_dir(:httparrot)
+      IO.puts "Starting HTTParrot on port #{https_port} (SSL)"
       {:ok, _} = :cowboy.start_https(:https, 100,
         [port: https_port, cacertfile: priv_dir ++ '/ssl/server-ca.crt',
          certfile: priv_dir ++ '/ssl/server.crt', keyfile: priv_dir ++ '/ssl/server.key'],
         [env: [dispatch: dispatch], onresponse: &prettify_json/4])
-        IO.puts "Starting HTTParrot on port #{https_port} (SSL)"
     end
-    IO.puts "Starting HTTParrot on port #{http_port}"
-    HTTParrot.Supervisor.start_link
+
+    Supervisor.start_link([], strategy: :one_for_one)
   end
 
   def stop(_State), do: :ok
