@@ -39,6 +39,7 @@ HTTP server built on top of Cowboy using (mostly) `cowboy_rest` handlers to serv
 ## TODO
 
 * [ ] /gzip Returns gzip-encoded data.
+* [ ] /deflate Returns deflate-encoded data.
 * [ ] /response-headers?key=val Returns given response headers.
 * [ ] /digest-auth/:qop/:user/:passwd Challenges HTTP Digest Auth.
 
