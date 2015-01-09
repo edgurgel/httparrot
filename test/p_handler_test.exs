@@ -70,4 +70,120 @@ defmodule HTTParrot.PHandlerTest do
 
     assert validate HTTParrot.GeneralRequestInfo
   end
+
+  test "returns json with general info and P[OST, ATCH, UT] octet-stream body data for multipart request (simple)" do
+    expect(:cowboy_req, :part, fn req ->
+      case req do
+        :req1 ->
+          {:ok, [{"content-disposition", "form-data; name=\"key1\""}], :req2}
+        :req3 ->
+          {:done, :req4}
+      end
+    end)
+
+    expect(:cowboy_req, :part_body, [{[:req2], {:ok, "value1", :req3}}])
+    expect(:cowboy_req, :parse_header,
+      [{["content-type", :req4],
+      {:ok, {"multipart", "form-data", [{"boundary", "----WebKitFormBoundary8BEQxJvZANFsvRV9"}]}, :req5}}])
+    expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req6})
+
+    expect(JSEX, :is_json?, 1, false)
+    expect(JSEX, :encode!, [{[[:info, {:form, [{"key1", "value1"}]}, {:files, [{}]}, {:data, ""}, {:json, nil}]], :response}])
+
+    expect(:cowboy_req, :set_resp_body, [{[:response, :req6], :req7}])
+
+    assert post_multipart(:req1, :state) == {true, :req7, nil}
+    assert validate HTTParrot.GeneralRequestInfo
+  end
+
+  test "returns json with general info and P[OST, ATCH, UT] octet-stream body data for multipart requests (multiple parts)" do
+    expect(:cowboy_req, :part, fn req ->
+      case req do
+        :req1 ->
+          {:ok, [{"content-disposition", "form-data; name=\"key1\""}], :req2}
+        :req3 ->
+          {:ok, [{"content-disposition", "form-data; name=\"key2\""}], :req4}
+        :req5 ->
+          {:done, :req6}
+      end
+    end)
+
+    expect(:cowboy_req, :part_body, fn req ->
+      case req do
+        :req2 -> {:ok, "value1", :req3}
+        :req4 -> {:ok, "value2", :req5}
+      end
+    end)
+
+    expect(:cowboy_req, :parse_header,
+      [{["content-type", :req6],
+      {:ok, {"multipart", "form-data", [{"boundary", "----WebKitFormBoundary8BEQxJvZANFsvRV9"}]}, :req7}}])
+    expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req8})
+
+    expect(JSEX, :is_json?, 1, false)
+    expect(JSEX, :encode!, [{[[:info, {:form, [{"key1", "value1"}, {"key2", "value2"}]}, {:files, [{}]}, {:data, ""}, {:json, nil}]], :response}])
+
+    expect(:cowboy_req, :set_resp_body, [{[:response, :req8], :req9}])
+
+    assert post_multipart(:req1, :state) == {true, :req9, nil}
+    assert validate HTTParrot.GeneralRequestInfo
+  end
+
+  test "returns json with general info and P[OST, UT, ATCH] file data (one file)" do
+    expect(:cowboy_req, :part, fn req ->
+      case req do
+        :req1 ->
+          {:ok, [{"content-disposition", "form-data; name=\"file1\"; filename=\"testdata.txt\""}, {"content-type", "text/plain"}], :req2}
+        :req3 ->
+          {:done, :req4}
+      end
+    end)
+
+    expect(:cowboy_req, :part_body, [{[:req2], {:ok, "here is some cool\ntest data.", :req3}}])
+    expect(:cowboy_req, :parse_header,
+      [{["content-type", :req4],
+      {:ok, {"multipart", "form-data", [{"boundary", "----WebKitFormBoundary8BEQxJvZANFsvRV9"}]}, :req5}}])
+    expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req6})
+
+    expect(JSEX, :is_json?, 1, false)
+    expect(JSEX, :encode!, [{[[:info, {:form, [{}]}, {:files, [{"file1", "here is some cool\ntest data."}]}, {:data, ""}, {:json, nil}]], :response}])
+
+    expect(:cowboy_req, :set_resp_body, [{[:response, :req6], :req7}])
+
+    assert post_multipart(:req1, :state) == {true, :req7, nil}
+    assert validate HTTParrot.GeneralRequestInfo
+  end
+
+  test "returns json with general info and P[OST, UT, ATCH] file data (form-data plus one file)" do
+    expect(:cowboy_req, :part, fn req ->
+      case req do
+        :req1 ->
+          {:ok, [{"content-disposition", "form-data; name=\"key1\""}], :req2}
+        :req3 ->
+          {:ok, [{"content-disposition", "form-data; name=\"file1\"; filename=\"testdata.txt\""}, {"content-type", "text/plain"}], :req4}
+        :req5 ->
+          {:done, :req6}
+      end
+    end)
+
+    expect(:cowboy_req, :part_body, fn req ->
+      case req do
+        :req2 -> {:ok, "value1", :req3}
+        :req4 -> {:ok, "here is some cool\ntest data", :req5}
+      end
+    end)
+
+    expect(:cowboy_req, :parse_header,
+      [{["content-type", :req6],
+      {:ok, {"multipart", "form-data", [{"boundary", "----WebKitFormBoundary8BEQxJvZANFsvRV9"}]}, :req7}}])
+    expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req8})
+
+    expect(JSEX, :is_json?, 1, false)
+    expect(JSEX, :encode!, [{[[:info, {:form, [{"key1", "value1"}]}, {:files, [{"file1", "here is some cool\ntest data"}]}, {:data, ""}, {:json, nil}]], :response}])
+
+    expect(:cowboy_req, :set_resp_body, [{[:response, :req8], :req9}])
+
+    assert post_multipart(:req1, :state) == {true, :req9, nil}
+    assert validate HTTParrot.GeneralRequestInfo
+  end
 end
