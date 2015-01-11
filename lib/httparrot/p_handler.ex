@@ -112,7 +112,7 @@ defmodule HTTParrot.PHandler do
     end
   end
 
-  defp normalize_list(list) when list == [], do: [{}]
+  defp normalize_list([]), do: [{}]
 
   defp normalize_list(list), do: list
 end
