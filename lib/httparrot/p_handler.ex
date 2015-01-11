@@ -62,22 +62,10 @@ defmodule HTTParrot.PHandler do
   def post_multipart(req, _state) do
     {:ok, parts, req} = handle_multipart(req)
 
-    filter = fn({type, _name, _body}, type_atom) -> type == type_atom end
-    reducer = fn({_type, name, body}, acc) -> acc ++ [{name, body}] end
+    file_parts = for file <- parts, elem(file, 0) == :file, do: {elem(file, 1), elem(file, 2)}
+    form_parts = for form <- parts, elem(form, 0) == :form, do: {elem(form, 1), elem(form, 2)}
 
-    # the other post handlers return a list with a single empty tuple if
-    # there's no data for forms, so let's match that behavior...
-    normalize = fn(parts) -> if parts == [], do: [{}], else: parts end
-
-    file_parts = Enum.filter(parts, &(filter.(&1, :file)))
-      |> Enum.reduce([], &(reducer.(&1, &2)))
-      |> normalize.()
-
-    form_parts = Enum.filter(parts, &(filter.(&1, :form)))
-      |> Enum.reduce([], &(reducer.(&1, &2)))
-      |> normalize.()
-
-    post(req, [form: form_parts, files: file_parts, data: "", json: nil])
+    post(req, [form: normalize_list(form_parts), files: normalize_list(file_parts), data: "", json: nil])
   end
 
   defp handle_multipart(req, parts \\ []) do
@@ -85,7 +73,7 @@ defmodule HTTParrot.PHandler do
       {:done, req} -> {:ok, parts, req}
       {:ok, headers, req} ->
         content_disposition = List.keyfind(headers, "content-disposition", 0)
-        if content_disposition != nil do
+        if content_disposition do
           case parse_content_disposition_header(content_disposition) do
             %{:type => "form-data", "name" => name, "filename" => _filename} ->
               {:ok, file, req} = handle_multipart_body(req)
@@ -112,16 +100,19 @@ defmodule HTTParrot.PHandler do
   end
 
   defp parse_content_disposition_header(header) do
-    parts = elem(header, 1) |> String.split(";")
+    parts = elem(header, 1)
+      |> String.split(";")
+      |> Enum.map(&String.strip/1)
 
-    type = Enum.at(parts, 0)
-    parts = Enum.drop(parts, 1)
-
-    Enum.reduce(parts, %{:type => type}, fn part, acc ->
-      [key, value] = String.split(part, "=")
-      key = String.strip(key)
-      value = String.strip(value) |> String.replace("\"", "")
-      Map.put(acc, key, value)
-    end)
+    for part <- parts, into: %{} do
+      case String.split(part, "=") |> Enum.map(&String.strip/1) do
+        [type] -> {:type, type}
+        [key, value] -> {key, String.replace(value, "\"", "")}
+      end
+    end
   end
+
+  defp normalize_list(list) when list == [], do: [{}]
+
+  defp normalize_list(list), do: list
 end
