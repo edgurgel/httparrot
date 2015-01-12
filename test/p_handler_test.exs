@@ -71,7 +71,51 @@ defmodule HTTParrot.PHandlerTest do
     assert validate HTTParrot.GeneralRequestInfo
   end
 
-  test "returns json with general info and P[OST, ATCH, UT] octet-stream body data for multipart request (simple)" do
+  test "returns json with general info and P[OST, UT, ATCH] non-JSON body data for a chunked request" do
+    first_chunk = "first chunk"
+    second_chunk = "second chunk"
+    expect(:cowboy_req, :body, fn req ->
+      case req do
+        :req1 ->
+          {:more, first_chunk, :req2}
+        :req2 ->
+          {:ok, second_chunk, :req3}
+      end
+    end)
+
+    expect(:cowboy_req, :set_resp_body, [{[:response, :req4], :req5}])
+    expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req4})
+    expect(JSEX, :is_json?, 1, false)
+    expect(JSEX, :encode!, [{[[:info, {:form, [{}]}, {:data, first_chunk <> second_chunk}, {:json, nil}]], :response}])
+
+    assert post_binary(:req1, :state) == {true, :req5, nil}
+
+    assert validate HTTParrot.GeneralRequestInfo
+  end
+
+  test "returns json with general info and P[OST, UT, ATCH] octect-stream body data for a chunked request" do
+    first_chunk = "first chunk" <> <<0xffff :: 16>>
+    second_chunk = "second chunk"
+    expect(:cowboy_req, :body, fn req ->
+      case req do
+        :req1 ->
+          {:more, first_chunk, :req2}
+        :req2 ->
+          {:ok, second_chunk, :req3}
+      end
+    end)
+
+    expect(:cowboy_req, :set_resp_body, [{[:response, :req4], :req5}])
+    expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req4})
+    expect(JSEX, :is_json?, 1, false)
+    expect(JSEX, :encode!, [{[[:info, {:form, [{}]}, {:data, "data:application/octet-stream;base64,#{Base.encode64(first_chunk <> second_chunk)}"}, {:json, nil}]], :response}])
+
+    assert post_binary(:req1, :state) == {true, :req5, nil}
+
+    assert validate HTTParrot.GeneralRequestInfo
+  end
+
+  test "returns json with general info and P[OST, ATCH, UT] form data for multipart request (simple)" do
     expect(:cowboy_req, :part, fn req ->
       case req do
         :req1 ->
@@ -96,7 +140,7 @@ defmodule HTTParrot.PHandlerTest do
     assert validate HTTParrot.GeneralRequestInfo
   end
 
-  test "returns json with general info and P[OST, ATCH, UT] octet-stream body data for multipart requests (multiple parts)" do
+  test "returns json with general info and P[OST, ATCH, UT] form data for multipart requests (multiple parts)" do
     expect(:cowboy_req, :part, fn req ->
       case req do
         :req1 ->
@@ -154,7 +198,7 @@ defmodule HTTParrot.PHandlerTest do
     assert validate HTTParrot.GeneralRequestInfo
   end
 
-  test "returns json with general info and P[OST, UT, ATCH] file data (form-data plus one file)" do
+  test "returns json with general info and P[OST, UT, ATCH] form data and file data (form-data plus one file)" do
     expect(:cowboy_req, :part, fn req ->
       case req do
         :req1 ->
