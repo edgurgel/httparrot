@@ -35,7 +35,7 @@ defmodule HTTParrot.PHandler do
   end
 
   def post_binary(req, _state) do
-    {:ok, body, req} = :cowboy_req.body(req)
+    {:ok, body, req} = handle_binary(req)
     if String.valid?(body) do
       if JSEX.is_json?(body) do
         post(req, [form: [{}], data: body, json: JSEX.decode!(body)])
@@ -46,6 +46,15 @@ defmodule HTTParrot.PHandler do
       # Octet-stream
       body = Base.encode64(body)
       post(req, [form: [{}], data: "data:application/octet-stream;base64," <> body, json: nil])
+    end
+  end
+
+  defp handle_binary(req, chunks \\ []) do
+    case :cowboy_req.body(req) do
+      {:ok, chunk, req} ->
+        {:ok, Enum.join(chunks ++ [chunk]), req}
+      {:more, chunk, req} ->
+        handle_binary(req, chunks ++ [chunk])
     end
   end
 
