@@ -33,8 +33,8 @@ defmodule Httparrot.Mixfile do
   defp package do
     [ contributors: ["Eduardo Gurgel Pinho"],
       licenses: ["MIT"],
-      links: [ { "Github", "https://github.com/edgurgel/httparrot" },
-               { "HTTParrot", "http://httparrot.herokuapp.com" },
-               { "httpbin", "http://httpbin.org" } ] ]
+      links: %{ "Github" => "https://github.com/edgurgel/httparrot",
+                "HTTParrot" => "http://httparrot.herokuapp.com",
+                "httpbin" => "http://httpbin.org" } ]
   end
 end
