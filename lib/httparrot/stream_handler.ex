@@ -30,7 +30,7 @@ defmodule HTTParrot.StreamHandler do
   defp stream_response(n, info) do
     fn(send_func) ->
       Enum.each 0..n-1, fn (i) ->
-        send_func.([id: i] ++ info |> JSEX.encode!)
+        send_func.([id: i] ++ info |> JSX.encode!)
       end
     end
   end

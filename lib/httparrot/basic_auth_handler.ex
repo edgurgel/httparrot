@@ -23,6 +23,6 @@ defmodule HTTParrot.BasicAuthHandler do
   end
 
   defp response(user) do
-    [authenticated: true, user: user] |> JSEX.encode!
+    [authenticated: true, user: user] |> JSX.encode!
   end
 end

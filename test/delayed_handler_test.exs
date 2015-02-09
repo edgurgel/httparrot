@@ -5,7 +5,7 @@ defmodule HTTParrot.DelayedHandlerTest do
 
   setup do
     new HTTParrot.GeneralRequestInfo
-    new JSEX
+    new JSX
     new :cowboy_req
     on_exit fn -> unload end
     :ok
@@ -45,11 +45,11 @@ defmodule HTTParrot.DelayedHandlerTest do
 
   test "returns json with query values, headers, url and origin" do
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {:info, :req2})
-    expect(JSEX, :encode!, [{[:info], :json}])
+    expect(JSX, :encode!, [{[:info], :json}])
 
     assert get_json(:req1, 0) == {:json, :req2, 0}
 
     assert validate HTTParrot.GeneralRequestInfo
-    assert validate JSEX
+    assert validate JSX
   end
 end

@@ -23,6 +23,6 @@ defmodule HTTParrot.DelayedHandler do
   end
 
   defp response(info) do
-    info |> JSEX.encode!
+    info |> JSX.encode!
   end
 end

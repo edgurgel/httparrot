@@ -5,7 +5,7 @@ defmodule HTTParrot.PHandlerTest do
 
   setup do
     new HTTParrot.GeneralRequestInfo
-    new JSEX
+    new JSX
     new :cowboy_req
     on_exit fn -> unload end
     :ok
@@ -27,7 +27,7 @@ defmodule HTTParrot.PHandlerTest do
     expect(:cowboy_req, :body_qs, 1, {:ok, :body_qs, :req2})
     expect(:cowboy_req, :set_resp_body, [{[:response, :req3], :req4}])
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req3})
-    expect(JSEX, :encode!, [{[[:info, {:form, :body_qs}, {:data, ""}, {:json, nil}]], :response}])
+    expect(JSX, :encode!, [{[[:info, {:form, :body_qs}, {:data, ""}, {:json, nil}]], :response}])
 
     assert post_form(:req1, :state) == {true, :req4, nil}
 
@@ -38,9 +38,9 @@ defmodule HTTParrot.PHandlerTest do
     expect(:cowboy_req, :body, 1, {:ok, "body", :req2})
     expect(:cowboy_req, :set_resp_body, [{[:response, :req3], :req4}])
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req3})
-    expect(JSEX, :is_json?, 1, true)
-    expect(JSEX, :decode!, 1, :decoded_json)
-    expect(JSEX, :encode!, [{[[:info, {:form, [{}]}, {:data, "body"}, {:json, :decoded_json}]], :response}])
+    expect(JSX, :is_json?, 1, true)
+    expect(JSX, :decode!, 1, :decoded_json)
+    expect(JSX, :encode!, [{[[:info, {:form, [{}]}, {:data, "body"}, {:json, :decoded_json}]], :response}])
 
     assert post_binary(:req1, :state) == {true, :req4, nil}
 
@@ -51,8 +51,8 @@ defmodule HTTParrot.PHandlerTest do
     expect(:cowboy_req, :body, 1, {:ok, "body", :req2})
     expect(:cowboy_req, :set_resp_body, [{[:response, :req3], :req4}])
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req3})
-    expect(JSEX, :is_json?, 1, false)
-    expect(JSEX, :encode!, [{[[:info, {:form, [{}]}, {:data, "body"}, {:json, nil}]], :response}])
+    expect(JSX, :is_json?, 1, false)
+    expect(JSX, :encode!, [{[[:info, {:form, [{}]}, {:data, "body"}, {:json, nil}]], :response}])
 
     assert post_binary(:req1, :state) == {true, :req4, nil}
 
@@ -63,8 +63,8 @@ defmodule HTTParrot.PHandlerTest do
     expect(:cowboy_req, :body, 1, {:ok, <<0xffff :: 16>>, :req2})
     expect(:cowboy_req, :set_resp_body, [{[:response, :req3], :req4}])
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req3})
-    expect(JSEX, :is_json?, 1, false)
-    expect(JSEX, :encode!, [{[[:info, {:form, [{}]}, {:data, "data:application/octet-stream;base64,//8="}, {:json, nil}]], :response}])
+    expect(JSX, :is_json?, 1, false)
+    expect(JSX, :encode!, [{[[:info, {:form, [{}]}, {:data, "data:application/octet-stream;base64,//8="}, {:json, nil}]], :response}])
 
     assert post_binary(:req1, :state) == {true, :req4, nil}
 
@@ -85,8 +85,8 @@ defmodule HTTParrot.PHandlerTest do
 
     expect(:cowboy_req, :set_resp_body, [{[:response, :req4], :req5}])
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req4})
-    expect(JSEX, :is_json?, 1, false)
-    expect(JSEX, :encode!, [{[[:info, {:form, [{}]}, {:data, first_chunk <> second_chunk}, {:json, nil}]], :response}])
+    expect(JSX, :is_json?, 1, false)
+    expect(JSX, :encode!, [{[[:info, {:form, [{}]}, {:data, first_chunk <> second_chunk}, {:json, nil}]], :response}])
 
     assert post_binary(:req1, :state) == {true, :req5, nil}
 
@@ -107,8 +107,8 @@ defmodule HTTParrot.PHandlerTest do
 
     expect(:cowboy_req, :set_resp_body, [{[:response, :req4], :req5}])
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req4})
-    expect(JSEX, :is_json?, 1, false)
-    expect(JSEX, :encode!, [{[[:info, {:form, [{}]}, {:data, "data:application/octet-stream;base64,#{Base.encode64(first_chunk <> second_chunk)}"}, {:json, nil}]], :response}])
+    expect(JSX, :is_json?, 1, false)
+    expect(JSX, :encode!, [{[[:info, {:form, [{}]}, {:data, "data:application/octet-stream;base64,#{Base.encode64(first_chunk <> second_chunk)}"}, {:json, nil}]], :response}])
 
     assert post_binary(:req1, :state) == {true, :req5, nil}
 
@@ -131,8 +131,8 @@ defmodule HTTParrot.PHandlerTest do
       {:ok, {"multipart", "form-data", [{"boundary", "----WebKitFormBoundary8BEQxJvZANFsvRV9"}]}, :req5}}])
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req6})
 
-    expect(JSEX, :is_json?, 1, false)
-    expect(JSEX, :encode!, [{[[:info, {:form, [{"key1", "value1"}]}, {:files, [{}]}, {:data, ""}, {:json, nil}]], :response}])
+    expect(JSX, :is_json?, 1, false)
+    expect(JSX, :encode!, [{[[:info, {:form, [{"key1", "value1"}]}, {:files, [{}]}, {:data, ""}, {:json, nil}]], :response}])
 
     expect(:cowboy_req, :set_resp_body, [{[:response, :req6], :req7}])
 
@@ -164,8 +164,8 @@ defmodule HTTParrot.PHandlerTest do
       {:ok, {"multipart", "form-data", [{"boundary", "----WebKitFormBoundary8BEQxJvZANFsvRV9"}]}, :req7}}])
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req8})
 
-    expect(JSEX, :is_json?, 1, false)
-    expect(JSEX, :encode!, [{[[:info, {:form, [{"key1", "value1"}, {"key2", "value2"}]}, {:files, [{}]}, {:data, ""}, {:json, nil}]], :response}])
+    expect(JSX, :is_json?, 1, false)
+    expect(JSX, :encode!, [{[[:info, {:form, [{"key1", "value1"}, {"key2", "value2"}]}, {:files, [{}]}, {:data, ""}, {:json, nil}]], :response}])
 
     expect(:cowboy_req, :set_resp_body, [{[:response, :req8], :req9}])
 
@@ -189,8 +189,8 @@ defmodule HTTParrot.PHandlerTest do
       {:ok, {"multipart", "form-data", [{"boundary", "----WebKitFormBoundary8BEQxJvZANFsvRV9"}]}, :req5}}])
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req6})
 
-    expect(JSEX, :is_json?, 1, false)
-    expect(JSEX, :encode!, [{[[:info, {:form, [{}]}, {:files, [{"file1", "here is some cool\ntest data."}]}, {:data, ""}, {:json, nil}]], :response}])
+    expect(JSX, :is_json?, 1, false)
+    expect(JSX, :encode!, [{[[:info, {:form, [{}]}, {:files, [{"file1", "here is some cool\ntest data."}]}, {:data, ""}, {:json, nil}]], :response}])
 
     expect(:cowboy_req, :set_resp_body, [{[:response, :req6], :req7}])
 
@@ -222,8 +222,8 @@ defmodule HTTParrot.PHandlerTest do
       {:ok, {"multipart", "form-data", [{"boundary", "----WebKitFormBoundary8BEQxJvZANFsvRV9"}]}, :req7}}])
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req8})
 
-    expect(JSEX, :is_json?, 1, false)
-    expect(JSEX, :encode!, [{[[:info, {:form, [{"key1", "value1"}]}, {:files, [{"file1", "here is some cool\ntest data"}]}, {:data, ""}, {:json, nil}]], :response}])
+    expect(JSX, :is_json?, 1, false)
+    expect(JSX, :encode!, [{[[:info, {:form, [{"key1", "value1"}]}, {:files, [{"file1", "here is some cool\ntest data"}]}, {:data, ""}, {:json, nil}]], :response}])
 
     expect(:cowboy_req, :set_resp_body, [{[:response, :req8], :req9}])
 

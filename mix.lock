@@ -1,6 +1,6 @@
-%{"cowboy": {:package, "1.0.0"},
-  "cowlib": {:package, "1.0.0"},
-  "jsex": {:package, "2.0.0"},
-  "jsx": {:package, "2.0.2"},
-  "meck": {:package, "0.8.2"},
-  "ranch": {:package, "1.0.0"}}
+%{"cowboy": {:hex, :cowboy, "1.0.0"},
+  "cowlib": {:hex, :cowlib, "1.0.0"},
+  "exjsx": {:hex, :exjsx, "3.1.0"},
+  "jsx": {:hex, :jsx, "2.4.0"},
+  "meck": {:hex, :meck, "0.8.2"},
+  "ranch": {:hex, :ranch, "1.0.0"}}

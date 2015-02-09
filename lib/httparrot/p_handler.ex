@@ -37,8 +37,8 @@ defmodule HTTParrot.PHandler do
   def post_binary(req, _state) do
     {:ok, body, req} = handle_binary(req)
     if String.valid?(body) do
-      if JSEX.is_json?(body) do
-        post(req, [form: [{}], data: body, json: JSEX.decode!(body)])
+      if JSX.is_json?(body) do
+        post(req, [form: [{}], data: body, json: JSX.decode!(body)])
       else
         post(req, [form: [{}], data: body, json: nil])
       end
@@ -65,7 +65,7 @@ defmodule HTTParrot.PHandler do
   end
 
   defp response(info, body) do
-    info ++ body |> JSEX.encode!
+    info ++ body |> JSX.encode!
   end
 
   def post_multipart(req, _state) do

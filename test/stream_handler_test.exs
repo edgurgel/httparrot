@@ -6,7 +6,7 @@ defmodule HTTParrot.StreamHandlerTest do
   setup do
     new :cowboy_req
     new HTTParrot.GeneralRequestInfo
-    new JSEX
+    new JSX
     on_exit fn -> unload end
     :ok
   end
@@ -45,7 +45,7 @@ defmodule HTTParrot.StreamHandlerTest do
 
   test "response must stream chunks" do
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req2})
-    expect(JSEX, :encode!, [{[[{:id, 0}, :info]], :json1},
+    expect(JSX, :encode!, [{[[{:id, 0}, :info]], :json1},
                             {[[{:id, 1}, :info]], :json2}])
 
     assert {{:chunked, func}, :req2, nil} = get_json(:req1, 2)
@@ -58,6 +58,6 @@ defmodule HTTParrot.StreamHandlerTest do
     assert_receive {:chunk, :json2}
 
     assert validate HTTParrot.GeneralRequestInfo
-    assert validate JSEX
+    assert validate JSX
   end
 end

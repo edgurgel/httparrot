@@ -19,14 +19,14 @@ defmodule Httparrot.Mixfile do
     [ applications: [ :compiler,
                       :syntax_tools,
                       :cowboy,
-                      :jsex ],
+                      :exjsx ],
       mod: { HTTParrot, [] },
       env: [ http_port: 8080, ssl: true, https_port: 8433 ] ]
   end
 
   defp deps do
     [ {:cowboy, "~> 1.0.0"},
-      {:jsex, "~> 2.0"},
+      {:exjsx, "~> 3.0"},
       {:meck, "~> 0.8.2", only: :test } ]
   end
 

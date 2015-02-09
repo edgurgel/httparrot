@@ -15,6 +15,6 @@ defmodule HTTParrot.IPHandler do
 
   defp response(ip) do
     ip = :inet_parse.ntoa(ip) |> to_string
-    [origin: ip] |> JSEX.encode!
+    [origin: ip] |> JSX.encode!
   end
 end

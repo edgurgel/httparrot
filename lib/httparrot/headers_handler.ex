@@ -11,6 +11,6 @@ defmodule HTTParrot.HeadersHandler do
   end
 
   defp response(headers) do
-    [headers: headers] |> JSEX.encode!
+    [headers: headers] |> JSX.encode!
   end
 end
