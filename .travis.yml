@@ -10,6 +10,4 @@ otp_release:
   - 17.0
   - 17.1
 sudo: false
-install: mix deps.get
-before_install: mix local.hex --force
 script: mix test --no-start
