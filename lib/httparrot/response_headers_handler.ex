@@ -21,6 +21,10 @@ defmodule HTTParrot.ResponseHeadersHandler do
     req = Enum.reduce qs_vals, req, fn({key, value}, req) ->
       :cowboy_req.set_resp_header(key, value, req)
     end
-    {"", req, qs_vals}
+    {response(qs_vals), req, qs_vals}
+  end
+
+  defp response(qs_vals) do
+    qs_vals |> JSX.encode!
   end
 end
