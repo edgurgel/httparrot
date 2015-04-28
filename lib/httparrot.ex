@@ -31,7 +31,8 @@ defmodule HTTParrot do
              {'/robots.txt', HTTParrot.RobotsHandler, []},
              {'/base64/:value', HTTParrot.Base64Handler, []},
              {'/image', HTTParrot.ImageHandler, []},
-             {'/websocket', HTTParrot.WebsocketHandler, []} ] }
+             {'/websocket', HTTParrot.WebsocketHandler, []},
+             {'/response-headers', HTTParrot.ResponseHeadersHandler, []} ] }
     ])
 
     {:ok, http_port} = Application.fetch_env(:httparrot, :http_port)
