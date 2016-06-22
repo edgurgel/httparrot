@@ -2,7 +2,6 @@ defmodule HTTParrot.StreamBytesHandler do
   @moduledoc """
   Streams n bytes of data, with chunked transfer encoding.
   """
-  alias HTTParrot.GeneralRequestInfo
   use HTTParrot.Cowboy, methods: ~w(GET)
 
   def content_types_provided(req, state) do
@@ -35,9 +34,9 @@ defmodule HTTParrot.StreamBytesHandler do
       Stream.repeatedly(fn -> :random.uniform(255) end)
         |> Stream.take(n)
         |> Enum.chunk(chunk_size, chunk_size, [])
-        |> Enum.each fn chunk ->
+        |> Enum.each(fn chunk ->
           send_func.(List.to_string(chunk))
-        end
+        end)
     end
   end
 end
