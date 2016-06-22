@@ -5,7 +5,7 @@ notifications:
 elixir:
   - 1.0.2
 otp_release:
-  - 17.0
-  - 17.1
+  - 18.0
+  - 18.1
 sudo: false
 script: mix test --no-start
