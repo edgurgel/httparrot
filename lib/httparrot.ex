@@ -62,7 +62,9 @@ defmodule HTTParrot do
       body = JSX.prettify!(body)
       headers = List.keystore(headers, "content-length", 0, {"content-length", Integer.to_char_list(String.length(body))})
       {:ok, req} = :cowboy_req.reply(status, headers, body, req)
+      req
+    else
+      req
     end
-    req
   end
 end
