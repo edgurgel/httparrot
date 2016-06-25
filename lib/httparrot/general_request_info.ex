@@ -20,15 +20,12 @@ defmodule HTTParrot.GeneralRequestInfo do
   @spec group_by_keys(list) :: map
   def group_by_keys([]), do: %{}
   def group_by_keys(args) do
-    groups = Enum.group_by(args, %{}, fn {k, _} -> k end)
-    for {k1, v1} <- groups, into: %{} do
-      values = Enum.map(v1, fn {_, v2} -> v2 end)
-        |> Enum.reverse
-        |> flatten_if_list_of_one
-      {k1, values}
-    end
+    args
+    |> Enum.map(fn {k, v} -> %{k => v} end)
+    |> Enum.reduce(fn m, acc ->
+      Map.merge(m, acc, fn _k, v1, v2 ->
+        [v2, v1]
+      end)
+    end)
   end
-
-  defp flatten_if_list_of_one([h]), do: h
-  defp flatten_if_list_of_one(list), do: list
 end
