@@ -24,7 +24,7 @@ defmodule HTTParrot.GeneralRequestInfo do
     |> Enum.map(fn {k, v} -> %{k => v} end)
     |> Enum.reduce(fn m, acc ->
       Map.merge(m, acc, fn _k, v1, v2 ->
-        [v2, v1]
+        List.wrap(v2) ++ List.wrap(v1)
       end)
     end)
   end
