@@ -14,8 +14,8 @@ defmodule HTTParrot.GeneralRequestInfo do
   @doc """
   Group by keys and if duplicated keys, aggregate them as a list
 
-  iex> group_by_keys([a: "v1", a: "v2", b: "v3"])
-  %{a: ["v1", "v2"], b: "v3"}
+  iex> group_by_keys([a: "v1", a: "v2", b: "v3", a: "v4"])
+  %{a: ["v1", "v2", "v4"], b: "v3"}
   """
   @spec group_by_keys(list) :: map
   def group_by_keys([]), do: %{}
@@ -24,7 +24,7 @@ defmodule HTTParrot.GeneralRequestInfo do
     |> Enum.map(fn {k, v} -> %{k => v} end)
     |> Enum.reduce(fn m, acc ->
       Map.merge(m, acc, fn _k, v1, v2 ->
-        [v2, v1]
+        List.wrap(v2) ++ List.wrap(v1)
       end)
     end)
   end
