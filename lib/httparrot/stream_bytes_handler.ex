@@ -25,13 +25,13 @@ defmodule HTTParrot.StreamBytesHandler do
 
   def get_bytes(req, state) do
     {n, seed, chunk_size} = state
-    :random.seed(seed, seed, seed)
+    :rand.seed(:exs64, {seed, seed, seed})
     {{:chunked, stream_response(n, chunk_size)}, req, nil}
   end
 
   defp stream_response(n, chunk_size) do
     fn(send_func) ->
-      Stream.repeatedly(fn -> :random.uniform(255) end)
+      Stream.repeatedly(fn -> :rand.uniform(255) end)
         |> Stream.take(n)
         |> Enum.chunk(chunk_size, chunk_size, [])
         |> Enum.each(fn chunk ->
