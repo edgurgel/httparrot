@@ -1,5 +1,10 @@
 defmodule HTTParrot do
   use Application
+  use Supervisor
+
+  def start_link(arg) do
+    Supervisor.start_link(__MODULE__, arg)
+  end
 
   def start(_type, _args) do
     dispatch = :cowboy_router.compile([
@@ -32,7 +37,9 @@ defmodule HTTParrot do
              {'/base64/:value', HTTParrot.Base64Handler, []},
              {'/image', HTTParrot.ImageHandler, []},
              {'/websocket', HTTParrot.WebsocketHandler, []},
-             {'/response-headers', HTTParrot.ResponseHeadersHandler, []} ] }
+             {'/response-headers', HTTParrot.ResponseHeadersHandler, []},
+             {'/store/:key', HTTParrot.StoreRequestHandler, []},
+             {'/retrieve/:key', HTTParrot.RetrieveRequestHandler, []} ] }
     ])
 
     {:ok, http_port} = Application.fetch_env(:httparrot, :http_port)
@@ -51,8 +58,12 @@ defmodule HTTParrot do
          certfile: priv_dir ++ '/ssl/server.crt', keyfile: priv_dir ++ '/ssl/server.key'],
         [env: [dispatch: dispatch], onresponse: &prettify_json/4])
     end
-
-    Supervisor.start_link([], strategy: :one_for_one)
+    Supervisor.start_link([
+        worker(ConCache, [[
+            ttl_check: :timer.minutes(5),
+            ttl: :timer.hours(12)
+          ], [name: :requests_registry]])
+      ], strategy: :one_for_one)
   end
 
   def stop(_State), do: :ok

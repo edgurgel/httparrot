@@ -19,7 +19,8 @@ defmodule Httparrot.Mixfile do
     [ applications: [ :compiler,
                       :syntax_tools,
                       :cowboy,
-                      :exjsx ],
+                      :exjsx,
+                      :con_cache ],
       mod: { HTTParrot, [] },
       env: [ http_port: 8080, ssl: true, https_port: 8433 ] ]
   end
@@ -27,6 +28,7 @@ defmodule Httparrot.Mixfile do
   defp deps do
     [ {:cowboy, "~> 1.0.0"},
       {:exjsx, "~> 3.0"},
+      {:con_cache, "~> 0.11.1"},
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:meck, "~> 0.8.2", only: :test } ]
   end

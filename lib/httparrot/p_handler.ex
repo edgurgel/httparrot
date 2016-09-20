@@ -49,7 +49,7 @@ defmodule HTTParrot.PHandler do
     end
   end
 
-  defp handle_binary(req, chunks \\ []) do
+  def handle_binary(req, chunks \\ []) do
     case :cowboy_req.body(req) do
       {:ok, chunk, req} ->
         {:ok, Enum.join(chunks ++ [chunk]), req}
@@ -77,7 +77,7 @@ defmodule HTTParrot.PHandler do
     post(req, [form: normalize_list(form_parts), files: normalize_list(file_parts), data: "", json: nil])
   end
 
-  defp handle_multipart(req, parts \\ []) do
+  def handle_multipart(req, parts \\ []) do
     case :cowboy_req.part(req) do
       {:done, req} -> {:ok, parts, req}
       {:ok, headers, req} ->
@@ -121,7 +121,7 @@ defmodule HTTParrot.PHandler do
     end
   end
 
-  defp normalize_list([]), do: [{}]
+  def normalize_list([]), do: [{}]
 
-  defp normalize_list(list), do: list
+  def normalize_list(list), do: list
 end
