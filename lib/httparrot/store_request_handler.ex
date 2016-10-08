@@ -1,6 +1,6 @@
 defmodule HTTParrot.StoreRequestHandler do
   @moduledoc """
-  Returns GET data.
+  Store the sended request with the :id
   """
   alias HTTParrot.GeneralRequestInfo
   use HTTParrot.Cowboy, methods: ~w(GET POST PUT HEAD OPTIONS)

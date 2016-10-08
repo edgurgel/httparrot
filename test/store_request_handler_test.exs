@@ -5,6 +5,7 @@ defmodule HTTParrot.StoreRequestHandlerTests do
 
   setup do
     HTTParrot.RequestStore.clear(:test)
+    on_exit fn -> unload end
     :ok
   end
 
