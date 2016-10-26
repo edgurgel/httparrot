@@ -89,9 +89,9 @@ defmodule HTTParrot do
     end
   end
 
-  defp unix_socket_supported? do
-    case Integer.parse("#{:erlang.system_info(:otp_release)}") do
-      {n, _} when n >= 19 -> true
+  def unix_socket_supported? do
+    case {:os.type, Integer.parse("#{:erlang.system_info(:otp_release)}")} do
+      {{:unix, _}, {n, _}} when n >= 19 -> true
       _ -> false
     end
   end
