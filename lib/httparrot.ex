@@ -58,6 +58,16 @@ defmodule HTTParrot do
          certfile: priv_dir ++ '/ssl/server.crt', keyfile: priv_dir ++ '/ssl/server.key'],
         [env: [dispatch: dispatch], onresponse: &prettify_json/4])
     end
+
+    if unix_socket_supported? && Application.get_env(:httparrot, :unix_socket, false) do
+      {:ok, socket_path} = Application.fetch_env(:httparrot, :socket_path)
+      if File.exists?(socket_path), do: File.rm(socket_path)
+      IO.puts "Starting HTTParrot on unix socket #{socket_path}"
+      {:ok, _} = :cowboy.start_http(:http_unix, 100,
+        [port: 0, ip: {:local, socket_path}],
+        [env: [dispatch: dispatch], onresponse: &prettify_json/4])
+    end
+
     Supervisor.start_link([
         worker(ConCache, [[
             ttl_check: :timer.minutes(5),
@@ -76,6 +86,13 @@ defmodule HTTParrot do
       req
     else
       req
+    end
+  end
+
+  defp unix_socket_supported? do
+    case Integer.parse("#{:erlang.system_info(:otp_release)}") do
+      {n, _} when n >= 19 -> true
+      _ -> false
     end
   end
 end

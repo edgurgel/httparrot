@@ -10,7 +10,12 @@ defmodule HTTParrot.IPHandler do
 
   def get_json(req, state) do
     {{ip, _port}, req} = :cowboy_req.peer(req)
+
     {response(ip), req, state}
+  end
+
+  defp response(:local) do
+    [origin: ""] |> JSX.encode!
   end
 
   defp response(ip) do

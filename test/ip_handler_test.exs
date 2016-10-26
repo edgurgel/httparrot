@@ -20,4 +20,14 @@ defmodule HTTParrot.IPHandlerTest do
     assert validate :cowboy_req
     assert validate JSX
   end
+
+  test "returns empty when running over unix sockets" do
+    expect(:cowboy_req, :peer, 1, {{:local, ""}, :req2})
+    expect(JSX, :encode!, [{[[origin: ""]], :json}])
+
+    assert get_json(:req1, :state) == {:json, :req2, :state}
+
+    assert validate :cowboy_req
+    assert validate JSX
+  end
 end
