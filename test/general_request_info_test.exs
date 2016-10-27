@@ -55,4 +55,18 @@ defmodule HTTParrot.GeneralRequestInfoTest do
 
     assert validate :cowboy_req
   end
+
+  test "returns empty origin when using unix sockets" do
+    qs_vals = [{"a", "b"}]
+    headers = [header1: "value 1", header2: "value 2"]
+    url = "http://localhost/get?a=b"
+    expect(:cowboy_req, :qs_vals, 1, {qs_vals, :req2})
+    expect(:cowboy_req, :headers, 1, {headers, :req3})
+    expect(:cowboy_req, :url, 1, {url, :req4})
+    expect(:cowboy_req, :peer, 1, {{:local, ""}, :req5})
+
+    assert retrieve(:req1) == {[args: %{"a" => "b"}, headers: headers, url: url, origin: ""], :req5}
+
+    assert validate :cowboy_req
+  end
 end

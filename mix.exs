@@ -22,7 +22,8 @@ defmodule Httparrot.Mixfile do
                       :exjsx,
                       :con_cache ],
       mod: { HTTParrot, [] },
-      env: [ http_port: 8080, ssl: true, https_port: 8433 ] ]
+      env: [ http_port: 8080, ssl: true, https_port: 8433,
+        unix_socket: true, socket_path: "httparrot.sock"] ]
   end
 
   defp deps do
