@@ -2,7 +2,6 @@ defmodule HTTParrot.RetrieveRequestHandler do
   @moduledoc """
   Retreive saved request and clear the conresponding :id
   """
-  alias HTTParrot.GeneralRequestInfo
   use HTTParrot.Cowboy, methods: ~w(GET POST PUT HEAD OPTIONS)
 
   def content_types_provided(req, state) do
