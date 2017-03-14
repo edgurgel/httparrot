@@ -7,7 +7,7 @@ defmodule HTTParrot.DelayedHandlerTest do
     new HTTParrot.GeneralRequestInfo
     new JSX
     new :cowboy_req
-    on_exit fn -> unload end
+    on_exit fn -> unload() end
     :ok
   end
 

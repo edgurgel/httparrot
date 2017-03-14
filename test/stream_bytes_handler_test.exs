@@ -5,7 +5,7 @@ defmodule HTTParrot.StreamBytesHandlerTest do
 
   setup do
     new :cowboy_req
-    on_exit fn -> unload end
+    on_exit fn -> unload() end
     :ok
   end
 
@@ -103,7 +103,7 @@ defmodule HTTParrot.StreamBytesHandlerTest do
     assert {{:chunked, func}, :req1, nil} = get_bytes(:req1, {9, 3, 4})
     assert is_function(func)
 
-    send_func = fn(body) -> send(self, {:chunk, body}) end
+    send_func = fn(body) -> send(self(), {:chunk, body}) end
     func.(send_func)
 
     assert_receive {:chunk, chunk1}
