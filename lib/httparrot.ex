@@ -6,6 +6,9 @@ defmodule HTTParrot do
     Supervisor.start_link(__MODULE__, arg)
   end
 
+  def init([]) do
+  end
+
   def start(_type, _args) do
     dispatch = :cowboy_router.compile([
       {:_, [ {'/', :cowboy_static, {:priv_file, :httparrot, "index.html"}},
@@ -60,7 +63,7 @@ defmodule HTTParrot do
         [env: [dispatch: dispatch], onresponse: &prettify_json/4])
     end
 
-    if unix_socket_supported? && Application.get_env(:httparrot, :unix_socket, false) do
+    if unix_socket_supported?() && Application.get_env(:httparrot, :unix_socket, false) do
       {:ok, socket_path} = Application.fetch_env(:httparrot, :socket_path)
       if File.exists?(socket_path), do: File.rm(socket_path)
       IO.puts "Starting HTTParrot on unix socket #{socket_path}"

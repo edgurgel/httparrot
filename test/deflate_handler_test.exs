@@ -6,7 +6,7 @@ defmodule HTTParrot.DeflateHandlerTest do
   setup do
     new HTTParrot.GeneralRequestInfo
     new JSX
-    on_exit fn -> unload end
+    on_exit fn -> unload() end
     :ok
   end
 

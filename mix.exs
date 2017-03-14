@@ -8,11 +8,11 @@ defmodule Httparrot.Mixfile do
   def project do
     [ app: :httparrot,
       version: "0.5.0",
-      elixir: "~> 1.2",
+      elixir: "~> 1.4",
       name: "HTTParrot",
       description: @description,
-      package: package,
-      deps: deps ]
+      package: package(),
+      deps: deps() ]
   end
 
   def application do
@@ -28,8 +28,8 @@ defmodule Httparrot.Mixfile do
 
   defp deps do
     [ {:cowboy, "~> 1.0.0"},
-      {:exjsx, "~> 3.0"},
-      {:con_cache, "~> 0.11.1"},
+      {:exjsx, "~> 4.0"},
+      {:con_cache, "~> 0.12.0"},
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:meck, "~> 0.8.2", only: :test } ]
   end

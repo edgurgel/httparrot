@@ -7,7 +7,7 @@ defmodule HTTParrot.StreamHandlerTest do
     new :cowboy_req
     new HTTParrot.GeneralRequestInfo
     new JSX
-    on_exit fn -> unload end
+    on_exit fn -> unload() end
     :ok
   end
 
@@ -51,7 +51,7 @@ defmodule HTTParrot.StreamHandlerTest do
     assert {{:chunked, func}, :req2, nil} = get_json(:req1, 2)
     assert is_function(func)
 
-    send_func = fn(body) -> send(self, {:chunk, body}) end
+    send_func = fn(body) -> send(self(), {:chunk, body}) end
     func.(send_func)
 
     assert_receive {:chunk, :json1}

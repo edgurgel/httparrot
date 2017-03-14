@@ -3,8 +3,7 @@ notifications:
   recipients:
     - eduardo@gurgel.me
 elixir:
-  - 1.2.6
-  - 1.3.0
+  - 1.4.2
 otp_release:
   - 18.0
   - 18.1
