@@ -27,8 +27,8 @@ defmodule Httparrot.Mixfile do
   end
 
   defp deps do
-    [ {:cowboy, "~> 1.0.0"},
-      {:exjsx, "~> 4.0"},
+    [ {:cowboy, "~> 1.1.2"},
+      {:exjsx, "~> 3.0 or ~> 4.0"},
       {:con_cache, "~> 0.12.0"},
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:meck, "~> 0.8.2", only: :test } ]
