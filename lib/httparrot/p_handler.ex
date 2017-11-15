@@ -111,10 +111,10 @@ defmodule HTTParrot.PHandler do
   defp parse_content_disposition_header(header) do
     parts = elem(header, 1)
       |> String.split(";")
-      |> Enum.map(&String.strip/1)
+      |> Enum.map(&String.trim/1)
 
     for part <- parts, into: %{} do
-      case String.split(part, "=") |> Enum.map(&String.strip/1) do
+      case String.split(part, "=") |> Enum.map(&String.trim/1) do
         [type] -> {:type, type}
         [key, value] -> {key, String.replace(value, "\"", "")}
       end
