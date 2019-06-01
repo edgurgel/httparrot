@@ -5,8 +5,9 @@ defmodule HTTParrot.SetCookiesHandler do
   use HTTParrot.Cowboy, methods: ~w(GET HEAD OPTIONS)
 
   def malformed_request(req, state) do
-    {qs_vals, req} = :cowboy_req.qs_vals(req)
+    {qs_vals, req} = :cowboy_req.parse_qs(req)
     {name, req} = :cowboy_req.binding(:name, req, nil)
+
     if name do
       {value, req} = :cowboy_req.binding(:value, req, nil)
       {false, req, List.keystore(qs_vals, name, 0, {name, value})}
@@ -20,9 +21,11 @@ defmodule HTTParrot.SetCookiesHandler do
   end
 
   def get_json(req, qs_vals) do
-    req = Enum.reduce qs_vals, req, fn({name, value}, req) ->
-      set_cookie(name, value, req)
-    end
+    req =
+      Enum.reduce(qs_vals, req, fn {name, value}, req ->
+        set_cookie(name, value, req)
+      end)
+
     {:ok, req} = :cowboy_req.reply(302, [{"location", "/cookies"}], "Redirecting...", req)
     {:halt, req, qs_vals}
   end

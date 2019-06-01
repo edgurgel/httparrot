@@ -5,7 +5,7 @@ defmodule HTTParrot.RedirectToHandler do
   use HTTParrot.Cowboy, methods: ~w(GET HEAD OPTIONS)
 
   def malformed_request(req, state) do
-    {url, req} = :cowboy_req.qs_val("url", req, nil)
+    %{url: url} = :cowboy_req.match_qs([{:url, [], nil}], req)
     if url, do: {false, req, url}, else: {true, req, state}
   end
 

@@ -16,6 +16,6 @@ defmodule HTTParrot.DeleteHandler do
   end
 
   defp response(info) do
-    info |> JSX.encode!
+    info |> JSX.encode!()
   end
 end

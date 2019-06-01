@@ -15,6 +15,6 @@ defmodule HTTParrot.UserAgentHandler do
 
   defp response(user_agent) do
     [{"user-agent", user_agent}]
-    |> JSX.encode!
+    |> JSX.encode!()
   end
 end

@@ -3,9 +3,10 @@ defmodule HTTParrot.DelayedHandler do
   use HTTParrot.Cowboy, methods: ~w(GET HEAD OPTIONS)
 
   def malformed_request(req, state) do
-    {n, req} = :cowboy_req.binding(:n, req)
+    n = :cowboy_req.binding(:n, req)
+
     try do
-      n = n |> String.to_integer |> min(10) |> max(0)
+      n = n |> String.to_integer() |> min(10) |> max(0)
       {false, req, n}
     rescue
       ArgumentError -> {true, req, state}
@@ -18,11 +19,11 @@ defmodule HTTParrot.DelayedHandler do
 
   def get_json(req, n) do
     {info, req} = GeneralRequestInfo.retrieve(req)
-    :timer.sleep(n*1000)
+    :timer.sleep(n * 1000)
     {response(info), req, n}
   end
 
   defp response(info) do
-    info |> JSX.encode!
+    info |> JSX.encode!()
   end
 end

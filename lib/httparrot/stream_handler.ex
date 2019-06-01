@@ -9,9 +9,10 @@ defmodule HTTParrot.StreamHandler do
     `n` must be an integer between 1-100
   """
   def malformed_request(req, state) do
-    {n, req} = :cowboy_req.binding(:n, req)
+    n = :cowboy_req.binding(:n, req)
+
     try do
-      n = n |> String.to_integer |> min(100) |> max(1)
+      n = n |> String.to_integer() |> min(100) |> max(1)
       {false, req, n}
     rescue
       ArgumentError -> {true, req, state}
@@ -28,10 +29,10 @@ defmodule HTTParrot.StreamHandler do
   end
 
   defp stream_response(n, info) do
-    fn(send_func) ->
-      Enum.each 0..n-1, fn (i) ->
-        send_func.([id: i] ++ info |> JSX.encode!)
-      end
+    fn send_func ->
+      Enum.each(0..(n - 1), fn i ->
+        send_func.(([id: i] ++ info) |> JSX.encode!())
+      end)
     end
   end
 end
