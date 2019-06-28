@@ -11,10 +11,10 @@ defmodule HTTParrot.CookiesHandlerTest do
   end
 
   test "returns a JSON with all the cookies o/" do
-    expect(:cowboy_req, :parse_cookies, 1, {[k1: :v1], :req2})
+    expect(:cowboy_req, :parse_cookies, 1, k1: :v1)
     expect(JSX, :encode!, [{[[cookies: [k1: :v1]]], :json}])
 
-    assert get_json(:req1, :state) == {:json, :req2, :state}
+    assert get_json(:req1, :state) == {:json, :req1, :state}
 
     assert validate(:cowboy_req)
     assert validate(JSX)

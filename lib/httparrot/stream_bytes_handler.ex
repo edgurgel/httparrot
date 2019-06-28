@@ -9,9 +9,9 @@ defmodule HTTParrot.StreamBytesHandler do
   end
 
   def malformed_request(req, state) do
-    {n, req} = :cowboy_req.binding(:n, req)
-    {seed, req} = :cowboy_req.match_qs(["seed", req], "1234")
-    {chunk_size, req} = :cowboy_req.match_qs(["chunk_size", req], "1024")
+    n = :cowboy_req.binding(:n, req)
+    %{seed: seed} = :cowboy_req.match_qs([{:seed, [], "1234"}], req)
+    %{chunk_size: chunk_size} = :cowboy_req.match_qs([{:chunk_size, [], "1024"}], req)
 
     try do
       n = n |> String.to_integer()

@@ -11,17 +11,17 @@ defmodule HTTParrot.ResponseHeadersHandlerTest do
   end
 
   test "malformed_request returns true if query string is empty" do
-    expect(:cowboy_req, :parse_qs, 1, {[], :req2})
+    expect(:cowboy_req, :parse_qs, 1, [])
 
-    assert malformed_request(:req1, :state) == {true, :req2, :state}
+    assert malformed_request(:req1, :state) == {true, :req1, :state}
 
     assert validate(:cowboy_req)
   end
 
   test "malformed_request returns false if query string is not empty" do
-    expect(:cowboy_req, :parse_qs, 1, {[{"foo", "bar"}], :req2})
+    expect(:cowboy_req, :parse_qs, 1, [{"foo", "bar"}])
 
-    assert malformed_request(:req1, :state) == {false, :req2, [{"foo", "bar"}]}
+    assert malformed_request(:req1, :state) == {false, :req1, [{"foo", "bar"}]}
 
     assert validate(:cowboy_req)
   end

@@ -5,7 +5,7 @@ defmodule HTTParrot.ResponseHeadersHandler do
   use HTTParrot.Cowboy, methods: ~w(GET HEAD OPTIONS)
 
   def malformed_request(req, state) do
-    {qs_vals, req} = :cowboy_req.parse_qs(req)
+    qs_vals = :cowboy_req.parse_qs(req)
 
     if not Enum.empty?(qs_vals) do
       {false, req, qs_vals}

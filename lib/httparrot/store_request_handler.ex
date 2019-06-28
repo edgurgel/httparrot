@@ -63,9 +63,9 @@ defmodule HTTParrot.StoreRequestHandler do
 
   def save_post(req, body) do
     {info, req} = GeneralRequestInfo.retrieve(req)
-    {key, req} = :cowboy_req.binding(:key, req)
+    key = :cowboy_req.binding(:key, req)
     HTTParrot.RequestStore.store(key, info ++ body)
-    {:ok, req} = :cowboy_req.reply(200, [], '{"saved":  "true"}', req)
+    req = :cowboy_req.reply(200, %{}, '{"saved":  "true"}', req)
     {:halt, req, nil}
   end
 end

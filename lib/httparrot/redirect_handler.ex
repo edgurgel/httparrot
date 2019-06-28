@@ -5,7 +5,7 @@ defmodule HTTParrot.RedirectHandler do
   use HTTParrot.Cowboy, methods: ~w(GET HEAD OPTIONS)
 
   def malformed_request(req, state) do
-    {n, req} = :cowboy_req.binding(:n, req)
+    n = :cowboy_req.binding(:n, req)
 
     try do
       n = n |> String.to_integer() |> max(1)
@@ -19,7 +19,7 @@ defmodule HTTParrot.RedirectHandler do
   def previously_existed(req, state), do: {true, req, state}
 
   def moved_permanently(req, n) do
-    {host_url, req} = :cowboy_req.uri(req)
+    host_url = :cowboy_req.uri(req)
     url = if n > 1, do: "/redirect/#{n - 1}", else: "/get"
     {{true, host_url <> url}, req, nil}
   end

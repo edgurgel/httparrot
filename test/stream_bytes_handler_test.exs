@@ -10,91 +10,91 @@ defmodule HTTParrot.StreamBytesHandlerTest do
   end
 
   test "malformed_request returns true if n is not an integer" do
-    expect(:cowboy_req, :binding, [{[:n, :req1], {"a2B=", :req2}}])
+    expect(:cowboy_req, :binding, [{[:n, :req1], "a2B="}])
 
-    expect(:cowboy_req, :match_qs, fn [name, req], default ->
+    expect(:cowboy_req, :match_qs, fn [{name, [], default}], req ->
       case {name, req, default} do
-        {"seed", :req2, "1234"} -> {"1234", :req3}
-        {"chunk_size", :req3, "1024"} -> {"1024", :req4}
+        {:seed, :req1, "1234"} -> %{seed: "1234"}
+        {:chunk_size, :req1, "1024"} -> %{chunk_size: "1024"}
       end
     end)
 
-    assert malformed_request(:req1, :state) == {true, :req4, :state}
+    assert malformed_request(:req1, :state) == {true, :req1, :state}
 
     assert validate(:cowboy_req)
   end
 
   test "malformed_request returns false if n is an integer" do
-    expect(:cowboy_req, :binding, [{[:n, :req1], {"2", :req2}}])
+    expect(:cowboy_req, :binding, [{[:n, :req1], "2"}])
 
-    expect(:cowboy_req, :match_qs, fn [name, req], default ->
+    expect(:cowboy_req, :match_qs, fn [{name, [], default}], req ->
       case {name, req, default} do
-        {"seed", :req2, "1234"} -> {"1234", :req3}
-        {"chunk_size", :req3, "1024"} -> {"1024", :req4}
+        {:seed, :req1, "1234"} -> %{seed: "1234"}
+        {:chunk_size, :req1, "1024"} -> %{chunk_size: "1024"}
       end
     end)
 
-    assert malformed_request(:req1, :state) == {false, :req4, {2, 1234, 1024}}
+    assert malformed_request(:req1, :state) == {false, :req1, {2, 1234, 1024}}
 
     assert validate(:cowboy_req)
   end
 
   test "malformed_request returns true if seed is not an integer" do
-    expect(:cowboy_req, :binding, [{[:n, :req1], {"2", :req2}}])
+    expect(:cowboy_req, :binding, [{[:n, :req1], "2"}])
 
-    expect(:cowboy_req, :match_qs, fn [name, req], default ->
+    expect(:cowboy_req, :match_qs, fn [{name, [], default}], req ->
       case {name, req, default} do
-        {"seed", :req2, "1234"} -> {"a2B=", :req3}
-        {"chunk_size", :req3, "1024"} -> {"1024", :req4}
+        {:seed, :req1, "1234"} -> %{seed: "a2B="}
+        {:chunk_size, :req1, "1024"} -> %{chunk_size: "1024"}
       end
     end)
 
-    assert malformed_request(:req1, :state) == {true, :req4, :state}
+    assert malformed_request(:req1, :state) == {true, :req1, :state}
 
     assert validate(:cowboy_req)
   end
 
   test "malformed_request returns false if seed is an integer" do
-    expect(:cowboy_req, :binding, [{[:n, :req1], {"2", :req2}}])
+    expect(:cowboy_req, :binding, [{[:n, :req1], "2"}])
 
-    expect(:cowboy_req, :match_qs, fn [name, req], default ->
+    expect(:cowboy_req, :match_qs, fn [{name, [], default}], req ->
       case {name, req, default} do
-        {"seed", :req2, "1234"} -> {"7", :req3}
-        {"chunk_size", :req3, "1024"} -> {"1024", :req4}
+        {:seed, :req1, "1234"} -> %{seed: "7"}
+        {:chunk_size, :req1, "1024"} -> %{chunk_size: "1024"}
       end
     end)
 
-    assert malformed_request(:req1, :state) == {false, :req4, {2, 7, 1024}}
+    assert malformed_request(:req1, :state) == {false, :req1, {2, 7, 1024}}
 
     assert validate(:cowboy_req)
   end
 
   test "malformed_request returns true if chunk_size is not an integer" do
-    expect(:cowboy_req, :binding, [{[:n, :req1], {"2", :req2}}])
+    expect(:cowboy_req, :binding, [{[:n, :req1], "2"}])
 
-    expect(:cowboy_req, :match_qs, fn [name, req], default ->
+    expect(:cowboy_req, :match_qs, fn [{name, [], default}], req ->
       case {name, req, default} do
-        {"seed", :req2, "1234"} -> {"1234", :req3}
-        {"chunk_size", :req3, "1024"} -> {"a2B=", :req4}
+        {:seed, :req1, "1234"} -> %{seed: "1234"}
+        {:chunk_size, :req1, "1024"} -> %{chunk_size: "a2B="}
       end
     end)
 
-    assert malformed_request(:req1, :state) == {true, :req4, :state}
+    assert malformed_request(:req1, :state) == {true, :req1, :state}
 
     assert validate(:cowboy_req)
   end
 
   test "malformed_request returns false if chunk_size is an integer" do
-    expect(:cowboy_req, :binding, [{[:n, :req1], {"2", :req2}}])
+    expect(:cowboy_req, :binding, [{[:n, :req1], "2"}])
 
-    expect(:cowboy_req, :match_qs, fn [name, req], default ->
+    expect(:cowboy_req, :match_qs, fn [{name, [], default}], req ->
       case {name, req, default} do
-        {"seed", :req2, "1234"} -> {"1234", :req3}
-        {"chunk_size", :req3, "1024"} -> {"13", :req4}
+        {:seed, :req1, "1234"} -> %{seed: "1234"}
+        {:chunk_size, :req1, "1024"} -> %{chunk_size: "13"}
       end
     end)
 
-    assert malformed_request(:req1, :state) == {false, :req4, {2, 1234, 13}}
+    assert malformed_request(:req1, :state) == {false, :req1, {2, 1234, 13}}
 
     assert validate(:cowboy_req)
   end
