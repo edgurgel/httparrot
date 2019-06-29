@@ -94,13 +94,12 @@ defmodule HTTParrot do
 
     Supervisor.start_link(
       [
-        worker(ConCache, [
-          [
-            ttl_check: :timer.minutes(5),
-            ttl: :timer.hours(12)
-          ],
-          [name: :requests_registry]
-        ])
+        {ConCache,
+         [
+           ttl_check_interval: :timer.minutes(5),
+           global_ttl: :timer.hours(12),
+           name: :requests_registry
+         ]}
       ],
       strategy: :one_for_one
     )

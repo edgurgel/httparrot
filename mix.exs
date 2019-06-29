@@ -35,7 +35,7 @@ defmodule Httparrot.Mixfile do
     [
       {:cowboy, "~> 2.5.0"},
       {:exjsx, "~> 3.0 or ~> 4.0"},
-      {:con_cache, "~> 0.12.0"},
+      {:con_cache, "~> 0.13.0"},
       {:ex_doc, "~> 0.14", only: :dev},
       {:meck, "~> 0.8.13", only: :test}
     ]
