@@ -7,6 +7,6 @@ elixir:
 otp_release:
   - 19.0
   - 20.0
-  - 21.0
+  - 21.0.1
 sudo: false
 script: mix test
