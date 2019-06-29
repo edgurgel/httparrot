@@ -2,7 +2,7 @@ defmodule HTTParrot.GeneralRequestInfo do
   def retrieve(req) do
     args = :cowboy_req.parse_qs(req)
     headers = :cowboy_req.headers(req)
-    url = :cowboy_req.uri(req)
+    url = IO.iodata_to_binary(:cowboy_req.uri(req))
     {ip, _port} = :cowboy_req.peer(req)
 
     ip =
@@ -19,8 +19,8 @@ defmodule HTTParrot.GeneralRequestInfo do
   @doc """
   Group by keys and if duplicated keys, aggregate them as a list
 
-  iex> group_by_keys([a: "v1", a: "v2", b: "v3", a: "v4"])
-  %{a: ["v1", "v2", "v4"], b: "v3"}
+  iex> group_by_keys([{"a", "v1"}, {"a", "v2"}, {"b", "v3"}, {"a", "v4"}])
+  %{"a" => ["v1", "v2", "v4"], "b" => "v3"}
   """
   @spec group_by_keys(list) :: map
   def group_by_keys([]), do: %{}

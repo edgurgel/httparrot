@@ -60,8 +60,8 @@ defmodule HTTParrot.SetCookiesHandlerTest do
 
   test "redirect to /cookies " do
     expect(:cowboy_req, :set_resp_cookie, [
-      {[:k1, :v1, :req1, [path: "/"]], :req2},
-      {[:k2, :v2, :req2, [path: "/"]], :req3}
+      {[:k1, :v1, :req1, %{path: "/"}], :req2},
+      {[:k2, :v2, :req2, %{path: "/"}], :req3}
     ])
 
     expect(:cowboy_req, :reply, [

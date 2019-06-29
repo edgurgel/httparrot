@@ -26,6 +26,6 @@ defmodule HTTParrot.DeleteCookiesHandler do
   defp delete_cookie(name, true, req), do: delete_cookie(name, "", req)
 
   defp delete_cookie(name, value, req) do
-    :cowboy_req.set_resp_cookie(name, value, req, path: "/", max_age: 0)
+    :cowboy_req.set_resp_cookie(name, value, req, %{path: "/", max_age: 0})
   end
 end

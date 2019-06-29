@@ -21,7 +21,7 @@ defmodule HTTParrot.StoreRequestHandler do
 
   def get(req, state) do
     {info, req} = GeneralRequestInfo.retrieve(req)
-    {key, _} = :cowboy_req.binding(:key, req)
+    key = :cowboy_req.binding(:key, req)
     HTTParrot.RequestStore.store(key, info)
     {'{"saved":  "true"}', req, state}
   end
@@ -65,7 +65,7 @@ defmodule HTTParrot.StoreRequestHandler do
     {info, req} = GeneralRequestInfo.retrieve(req)
     key = :cowboy_req.binding(:key, req)
     HTTParrot.RequestStore.store(key, info ++ body)
-    req = :cowboy_req.reply(200, %{}, '{"saved":  "true"}', req)
+    req = :cowboy_req.reply(200, %{}, "{\"saved\": \"true\"}", req)
     {:halt, req, nil}
   end
 end

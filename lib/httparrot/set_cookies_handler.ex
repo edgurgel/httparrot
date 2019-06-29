@@ -31,6 +31,6 @@ defmodule HTTParrot.SetCookiesHandler do
   end
 
   defp set_cookie(name, value, req) do
-    :cowboy_req.set_resp_cookie(name, value, req, path: "/")
+    :cowboy_req.set_resp_cookie(name, value, req, %{path: "/"})
   end
 end
