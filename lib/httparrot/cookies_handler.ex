@@ -9,12 +9,12 @@ defmodule HTTParrot.CookiesHandler do
   end
 
   def get_json(req, state) do
-    {cookies, req} = :cowboy_req.cookies(req)
+    cookies = :cowboy_req.parse_cookies(req)
     cookies = if cookies == [], do: [{}], else: cookies
     {response(cookies), req, state}
   end
 
   defp response(cookies) do
-    [cookies: cookies] |> JSX.encode!
+    [cookies: cookies] |> JSX.encode!()
   end
 end

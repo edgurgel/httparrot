@@ -12,7 +12,7 @@ defmodule HTTParrot.RelativeRedirectHandler do
   def previously_existed(req, state), do: {true, req, state}
 
   def moved_permanently(req, n) do
-    url = if n > 1, do: "/redirect/#{n-1}", else: "/get"
+    url = if n > 1, do: "/redirect/#{n - 1}", else: "/get"
     {{true, url}, req, nil}
   end
 end

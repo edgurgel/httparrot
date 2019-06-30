@@ -4,36 +4,36 @@ defmodule HTTParrot.ResponseHeadersHandlerTest do
   import HTTParrot.ResponseHeadersHandler
 
   setup do
-    new :cowboy_req
-    new JSX
-    on_exit fn -> unload() end
+    new(:cowboy_req)
+    new(JSX)
+    on_exit(fn -> unload() end)
     :ok
   end
 
   test "malformed_request returns true if query string is empty" do
-    expect(:cowboy_req, :qs_vals, 1, {[], :req2})
+    expect(:cowboy_req, :parse_qs, 1, [])
 
-    assert malformed_request(:req1, :state) == {true, :req2, :state}
+    assert malformed_request(:req1, :state) == {true, :req1, :state}
 
-    assert validate :cowboy_req
+    assert validate(:cowboy_req)
   end
 
   test "malformed_request returns false if query string is not empty" do
-    expect(:cowboy_req, :qs_vals, 1, {[{"foo", "bar"}], :req2})
+    expect(:cowboy_req, :parse_qs, 1, [{"foo", "bar"}])
 
-    assert malformed_request(:req1, :state) == {false, :req2, [{"foo", "bar"}]}
+    assert malformed_request(:req1, :state) == {false, :req1, [{"foo", "bar"}]}
 
-    assert validate :cowboy_req
+    assert validate(:cowboy_req)
   end
 
   test "query string parameters are sent as headers" do
-    expect(:cowboy_req, :set_resp_header, [{[:k1, :v1, :req1], :req2},
-                                           {[:k2, :v2, :req2], :req3}])
+    expect(:cowboy_req, :set_resp_header, [{[:k1, :v1, :req1], :req2}, {[:k2, :v2, :req2], :req3}])
+
     expect(JSX, :encode!, [{[[k1: :v1, k2: :v2]], :json}])
 
-    assert get_json(:req1, [k1: :v1, k2: :v2]) == {:json, :req3, [k1: :v1, k2: :v2]}
+    assert get_json(:req1, k1: :v1, k2: :v2) == {:json, :req3, [k1: :v1, k2: :v2]}
 
-    assert validate :cowboy_req
-    assert validate JSX
+    assert validate(:cowboy_req)
+    assert validate(JSX)
   end
 end

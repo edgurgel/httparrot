@@ -8,11 +8,12 @@ defmodule HTTParrot.HiddenBasicAuthHandler do
   This method should be `is_authorized`, but this handler will return 404 if the auth fails
   """
   def resource_exists(req, state) do
-    {user, req} = :cowboy_req.binding(:user, req)
-    {passwd, req} = :cowboy_req.binding(:passwd, req)
-    {:ok, auth, req} = :cowboy_req.parse_header("authorization", req)
+    user = :cowboy_req.binding(:user, req)
+    passwd = :cowboy_req.binding(:passwd, req)
+    auth = :cowboy_req.parse_header("authorization", req)
+
     case auth do
-      {"basic", {^user, ^passwd}} -> {true, req, user}
+      {:basic, ^user, ^passwd} -> {true, req, user}
       _ -> {false, req, state}
     end
   end
@@ -26,6 +27,6 @@ defmodule HTTParrot.HiddenBasicAuthHandler do
   end
 
   defp response(user) do
-    [authenticated: true, user: user] |> JSX.encode!
+    [authenticated: true, user: user] |> JSX.encode!()
   end
 end

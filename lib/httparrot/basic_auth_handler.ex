@@ -8,6 +8,7 @@ defmodule HTTParrot.BasicAuthHandler do
     {user, req} = :cowboy_req.binding(:user, req)
     {passwd, req} = :cowboy_req.binding(:passwd, req)
     {:ok, auth, req} = :cowboy_req.parse_header("authorization", req)
+
     case auth do
       {"basic", {^user, ^passwd}} -> {true, req, user}
       _ -> {{false, "Basic realm=\"Fake Realm\""}, req, state}
@@ -23,6 +24,6 @@ defmodule HTTParrot.BasicAuthHandler do
   end
 
   defp response(user) do
-    [authenticated: true, user: user] |> JSX.encode!
+    [authenticated: true, user: user] |> JSX.encode!()
   end
 end

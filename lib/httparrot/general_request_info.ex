@@ -1,14 +1,15 @@
 defmodule HTTParrot.GeneralRequestInfo do
   def retrieve(req) do
-    {args, req} = :cowboy_req.qs_vals(req)
-    {headers, req} = :cowboy_req.headers(req)
-    {url, req} = :cowboy_req.url(req)
-    {{ip, port}, req} = :cowboy_req.peer(req)
+    args = :cowboy_req.parse_qs(req)
+    headers = :cowboy_req.headers(req)
+    url = IO.iodata_to_binary(:cowboy_req.uri(req))
+    {ip, _port} = :cowboy_req.peer(req)
 
-    ip = case {ip, port} do
-      {:local, _} -> ""
-      _ -> :inet_parse.ntoa(ip) |> to_string
-    end
+    ip =
+      case ip do
+        {127, 0, 0, 1} -> ""
+        _ -> :inet_parse.ntoa(ip) |> to_string
+      end
 
     args = group_by_keys(args)
 
@@ -18,11 +19,12 @@ defmodule HTTParrot.GeneralRequestInfo do
   @doc """
   Group by keys and if duplicated keys, aggregate them as a list
 
-  iex> group_by_keys([a: "v1", a: "v2", b: "v3", a: "v4"])
-  %{a: ["v1", "v2", "v4"], b: "v3"}
+  iex> group_by_keys([{"a", "v1"}, {"a", "v2"}, {"b", "v3"}, {"a", "v4"}])
+  %{"a" => ["v1", "v2", "v4"], "b" => "v3"}
   """
   @spec group_by_keys(list) :: map
   def group_by_keys([]), do: %{}
+
   def group_by_keys(args) do
     args
     |> Enum.map(fn {k, v} -> %{k => v} end)

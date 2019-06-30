@@ -9,8 +9,8 @@ defmodule HTTParrot.StatusCodeHandler do
   end
 
   def get_json(req, state) do
-    {code, req} = :cowboy_req.binding(:code, req)
-    {:ok, req} = :cowboy_req.reply(code, [], "", req)
+    code = :cowboy_req.binding(:code, req)
+    req = :cowboy_req.reply(code, %{}, "", req)
     {:halt, req, state}
   end
 end

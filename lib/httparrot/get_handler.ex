@@ -15,6 +15,6 @@ defmodule HTTParrot.GetHandler do
   end
 
   defp response(info) do
-    info |> JSX.encode!
+    info |> JSX.encode!()
   end
 end

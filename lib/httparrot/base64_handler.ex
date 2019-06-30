@@ -12,13 +12,13 @@ defmodule HTTParrot.Base64Handler do
     {value, req} = :cowboy_req.binding(:value, req)
 
     case decode(value) do
-      { :ok, result } -> {false, req, result}
-        :error -> {true, req, state}
+      {:ok, result} -> {false, req, result}
+      :error -> {true, req, state}
     end
   end
 
   defp decode(value) do
-    pad(value) |> Base.url_decode64
+    pad(value) |> Base.url_decode64()
   end
 
   defp pad(value) do

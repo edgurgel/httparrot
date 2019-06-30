@@ -15,10 +15,13 @@ defmodule HTTParrot.RequestStore do
   """
   def retrieve(key) do
     entry = ConCache.get(:requests_registry, key)
+
     case entry do
-    nil -> []
-    _ ->
-      entry
+      nil ->
+        []
+
+      _ ->
+        entry
     end
   end
 

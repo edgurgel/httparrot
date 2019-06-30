@@ -6,11 +6,11 @@ defmodule HTTParrot.HeadersHandler do
   end
 
   def get_json(req, state) do
-    {headers, req} = :cowboy_req.headers(req)
+    headers = :cowboy_req.headers(req)
     {response(headers), req, state}
   end
 
   defp response(headers) do
-    [headers: headers] |> JSX.encode!
+    [headers: headers] |> JSX.encode!()
   end
 end

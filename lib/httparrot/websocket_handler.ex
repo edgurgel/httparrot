@@ -1,15 +1,16 @@
 defmodule HTTParrot.WebsocketHandler do
-  @behaviour :cowboy_websocket_handler
+  @behaviour :cowboy_websocket
   @moduledoc """
   Echo given messages through websocket connection
   """
 
-  def init(_transport, _req, _opts), do: {:upgrade, :protocol, :cowboy_websocket}
-  def websocket_init(_transport, req, _opts), do: {:ok, req, nil}
+  def init(req, state), do: {:cowboy_websocket, req, state}
+  def websocket_init(state), do: {:ok, state}
 
-  def websocket_handle({:text, text}, req, state), do: {:reply, {:text, text}, req, state}
-  def websocket_handle({:binary, binary}, req, state), do: {:reply, {:binary, binary}, req, state}
-  def websocket_info(_info, req, state), do: {:ok, req, state}
+  def websocket_handle({:text, text}, state), do: {:reply, {:text, text}, state}
+  def websocket_handle({:binary, binary}, state), do: {:reply, {:binary, binary}, state}
 
-  def websocket_terminate(_reason, _req, _state), do: :ok
+  def websocket_info(_info, state), do: {:ok, state}
+
+  def terminate(_reason, _req, _state), do: :ok
 end
