@@ -11,10 +11,10 @@ defmodule HTTParrot.UserAgentHandlerTest do
   end
 
   test "returns prettified json with user agent" do
-    expect(:cowboy_req, :header, [{["user-agent", :req1, "null"], {:user_agent, :req2}}])
+    expect(:cowboy_req, :header, [{["user-agent", :req1, "null"], :user_agent}])
     expect(JSX, :encode!, [{[[{"user-agent", :user_agent}]], :json}])
 
-    assert get_json(:req1, :state) == {:json, :req2, :state}
+    assert get_json(:req1, :state) == {:json, :req1, :state}
 
     assert validate :cowboy_req
     assert validate JSX

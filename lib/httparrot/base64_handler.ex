@@ -9,7 +9,7 @@ defmodule HTTParrot.Base64Handler do
   end
 
   def malformed_request(req, state) do
-    {value, req} = :cowboy_req.binding(:value, req)
+    value = :cowboy_req.binding(:value, req)
 
     case decode(value) do
       {:ok, result} -> {false, req, result}

@@ -45,16 +45,11 @@ defmodule HTTParrot.StreamHandlerTest do
 
   test "response must stream chunks" do
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req2})
+    expect(:cowboy_req, :stream_reply, 3, :req2)
+    expect(:cowboy_req, :stream_body, 3, :req2)
     expect(JSX, :encode!, [{[[{:id, 0}, :info]], :json1}, {[[{:id, 1}, :info]], :json2}])
 
-    assert {{:chunked, func}, :req2, nil} = get_json(:req1, 2)
-    assert is_function(func)
-
-    send_func = fn body -> send(self(), {:chunk, body}) end
-    func.(send_func)
-
-    assert_receive {:chunk, :json1}
-    assert_receive {:chunk, :json2}
+    assert {:stop, :req2, nil} = get_json(:req1, 2)
 
     assert validate(HTTParrot.GeneralRequestInfo)
     assert validate(JSX)

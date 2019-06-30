@@ -20,7 +20,7 @@ defmodule HTTParrot.DeleteCookiesHandlerTest do
     ])
 
     assert get_json(:req1, [{"k1", "v1"}, {"k2", "v2"}]) ==
-             {:halt, :req4, [{"k1", "v1"}, {"k2", "v2"}]}
+             {:stop, :req4, [{"k1", "v1"}, {"k2", "v2"}]}
 
     assert validate(:cowboy_req)
   end

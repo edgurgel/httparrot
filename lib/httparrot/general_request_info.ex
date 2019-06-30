@@ -8,6 +8,7 @@ defmodule HTTParrot.GeneralRequestInfo do
     ip =
       case ip do
         {127, 0, 0, 1} -> ""
+        :local -> ""
         _ -> :inet_parse.ntoa(ip) |> to_string
       end
 

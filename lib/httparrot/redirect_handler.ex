@@ -19,7 +19,7 @@ defmodule HTTParrot.RedirectHandler do
   def previously_existed(req, state), do: {true, req, state}
 
   def moved_permanently(req, n) do
-    host_url = IO.iodata_to_binary(:cowboy_req.uri(req))
+    host_url = IO.iodata_to_binary(:cowboy_req.uri(req, %{path: :undefined, qs: :undefined, fragment: :undefined}))
     url = if n > 1, do: "/redirect/#{n - 1}", else: "/get"
     {{true, host_url <> url}, req, nil}
   end

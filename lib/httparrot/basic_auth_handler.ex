@@ -5,12 +5,12 @@ defmodule HTTParrot.BasicAuthHandler do
   use HTTParrot.Cowboy, methods: ~w(GET HEAD OPTIONS)
 
   def is_authorized(req, state) do
-    {user, req} = :cowboy_req.binding(:user, req)
-    {passwd, req} = :cowboy_req.binding(:passwd, req)
-    {:ok, auth, req} = :cowboy_req.parse_header("authorization", req)
+    user = :cowboy_req.binding(:user, req)
+    passwd = :cowboy_req.binding(:passwd, req)
+    auth = :cowboy_req.parse_header("authorization", req)
 
     case auth do
-      {"basic", {^user, ^passwd}} -> {true, req, user}
+      {:basic, ^user, ^passwd} -> {true, req, user}
       _ -> {{false, "Basic realm=\"Fake Realm\""}, req, state}
     end
   end

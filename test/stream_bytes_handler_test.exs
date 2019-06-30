@@ -100,15 +100,14 @@ defmodule HTTParrot.StreamBytesHandlerTest do
   end
 
   test "response must stream chunks" do
-    assert {{:chunked, func}, :req1, nil} = get_bytes(:req1, {9, 3, 4})
-    assert is_function(func)
+    expect(:cowboy_req, :stream_reply, 3, :req2)
+    expect(:cowboy_req, :stream_body, 3, :ok)
 
-    send_func = fn body -> send(self(), {:chunk, body}) end
-    func.(send_func)
+    assert {:stop, :req2, nil} = get_bytes(:req1, {9, 3, 4})
 
-    assert_receive {:chunk, chunk1}
-    assert_receive {:chunk, chunk2}
-    assert_receive {:chunk, chunk3}
+    chunk1 = :meck.capture(1, :cowboy_req, :stream_body, :_, 1)
+    chunk2 = :meck.capture(2, :cowboy_req, :stream_body, :_, 1)
+    chunk3 = :meck.capture(3, :cowboy_req, :stream_body, :_, 1)
 
     assert String.length(chunk1) == 4
     assert String.length(chunk2) == 4

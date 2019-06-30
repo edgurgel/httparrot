@@ -13,7 +13,7 @@ defmodule HTTParrot.StatusCodeHandlerTest do
     code = 123
     expect(:cowboy_req, :binding, [{[:code, :req1], code}])
     expect(:cowboy_req, :reply, [{[code, %{}, "", :req1], :req2}])
-    assert get_json(:req1, :state) == {:halt, :req2, :state}
+    assert get_json(:req1, :state) == {:stop, :req2, :state}
     assert validate(:cowboy_req)
   end
 end

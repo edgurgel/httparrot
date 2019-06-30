@@ -68,7 +68,7 @@ defmodule HTTParrot.SetCookiesHandlerTest do
       {[302, %{"location" => "/cookies"}, "Redirecting...", :req3], :req4}
     ])
 
-    assert get_json(:req1, k1: :v1, k2: :v2) == {:halt, :req4, [k1: :v1, k2: :v2]}
+    assert get_json(:req1, k1: :v1, k2: :v2) == {:stop, :req4, [k1: :v1, k2: :v2]}
 
     assert validate(:cowboy_req)
   end

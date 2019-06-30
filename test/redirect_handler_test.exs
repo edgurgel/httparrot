@@ -34,7 +34,7 @@ defmodule HTTParrot.RedirectHandlerTest do
   end
 
   test "moved_permanently returns 'redirect/n-1' if n > 1" do
-    expect(:cowboy_req, :uri, 1, "host")
+    expect(:cowboy_req, :uri, 2, "host")
 
     assert moved_permanently(:req1, 4) == {{true, "host/redirect/3"}, :req1, nil}
 
@@ -42,7 +42,7 @@ defmodule HTTParrot.RedirectHandlerTest do
   end
 
   test "moved_permanently returns '/get' if n = 1" do
-    expect(:cowboy_req, :uri, 1, "host")
+    expect(:cowboy_req, :uri, 2, "host")
 
     assert moved_permanently(:req1, 1) == {{true, "host/get"}, :req1, nil}
 

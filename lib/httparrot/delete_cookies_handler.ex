@@ -20,7 +20,7 @@ defmodule HTTParrot.DeleteCookiesHandler do
       end)
 
     req = :cowboy_req.reply(302, %{"location" => "/cookies"}, "Redirecting...", req)
-    {:halt, req, qs_vals}
+    {:stop, req, qs_vals}
   end
 
   defp delete_cookie(name, true, req), do: delete_cookie(name, "", req)

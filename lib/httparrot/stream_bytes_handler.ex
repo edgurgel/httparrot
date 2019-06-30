@@ -26,17 +26,19 @@ defmodule HTTParrot.StreamBytesHandler do
   def get_bytes(req, state) do
     {n, seed, chunk_size} = state
     :rand.seed(:exs64, {seed, seed, seed})
-    {{:chunked, stream_response(n, chunk_size)}, req, nil}
+    req = stream_response!(n, chunk_size, req)
+    {:stop, req, nil}
   end
 
-  defp stream_response(n, chunk_size) do
-    fn send_func ->
-      Stream.repeatedly(fn -> :rand.uniform(255) end)
-      |> Stream.take(n)
-      |> Enum.chunk_every(chunk_size, chunk_size, [])
-      |> Enum.each(fn chunk ->
-        send_func.(List.to_string(chunk))
-      end)
-    end
+  defp stream_response!(n, chunk_size, req) do
+    req = :cowboy_req.stream_reply(200, %{ "content-type" => "application/octet-stream" }, req)
+    Stream.repeatedly(fn -> :rand.uniform(255) end)
+    |> Stream.take(n)
+    |> Enum.chunk_every(chunk_size, chunk_size, [])
+    |> Enum.each(fn chunk ->
+      :cowboy_req.stream_body(List.to_string(chunk), :nofin, req)
+    end)
+    :cowboy_req.stream_body("", :fin, req)
+    req
   end
 end

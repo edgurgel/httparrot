@@ -27,7 +27,7 @@ defmodule HTTParrot.SetCookiesHandler do
       end)
 
     req = :cowboy_req.reply(302, %{"location" => "/cookies"}, "Redirecting...", req)
-    {:halt, req, qs_vals}
+    {:stop, req, qs_vals}
   end
 
   defp set_cookie(name, value, req) do

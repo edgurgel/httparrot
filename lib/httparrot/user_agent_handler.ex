@@ -9,7 +9,7 @@ defmodule HTTParrot.UserAgentHandler do
   end
 
   def get_json(req, state) do
-    {user_agent, req} = :cowboy_req.header("user-agent", req, "null")
+    user_agent = :cowboy_req.header("user-agent", req, "null")
     {response(user_agent), req, state}
   end
 

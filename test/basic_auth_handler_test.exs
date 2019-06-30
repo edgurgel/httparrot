@@ -11,22 +11,22 @@ defmodule HTTParrot.BasicAuthHandlerTest do
   end
 
   test "is_authorized returns true if user and passwd match" do
-    expect(:cowboy_req, :binding, [{[:user, :req1], {:user, :req2}},
-                                   {[:passwd, :req2], {:passwd, :req3}}])
-    expect(:cowboy_req, :parse_header, [{["authorization", :req3], {:ok, {"basic", {:user, :passwd}}, :req4}}])
+    expect(:cowboy_req, :binding, [{[:user, :req1], :user},
+                                   {[:passwd, :req1], :passwd}])
+    expect(:cowboy_req, :parse_header, [{["authorization", :req1], {:basic, :user, :passwd}}])
 
-    assert is_authorized(:req1, :state) == {true, :req4, :user}
+    assert is_authorized(:req1, :state) == {true, :req1, :user}
 
     assert validate :cowboy_req
     assert validate JSX
   end
 
   test "is_authorized returns false if user and passwd doesnt match" do
-    expect(:cowboy_req, :binding, [{[:user, :req1], {:user, :req2}},
-                                   {[:passwd, :req2], {:passwd, :req3}}])
-    expect(:cowboy_req, :parse_header, [{["authorization", :req3], {:ok, {"basic", {:not_the_user, :passwd}}, :req4}}])
+    expect(:cowboy_req, :binding, [{[:user, :req1], :user},
+                                   {[:passwd, :req1], :passwd}])
+    expect(:cowboy_req, :parse_header, [{["authorization", :req1], {:basic, :not_the_user, :passwd}}])
 
-    assert is_authorized(:req1, :state) == {{false, "Basic realm=\"Fake Realm\""}, :req4, :state}
+    assert is_authorized(:req1, :state) == {{false, "Basic realm=\"Fake Realm\""}, :req1, :state}
 
     assert validate :cowboy_req
     assert validate JSX

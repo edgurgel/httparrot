@@ -66,6 +66,6 @@ defmodule HTTParrot.StoreRequestHandler do
     key = :cowboy_req.binding(:key, req)
     HTTParrot.RequestStore.store(key, info ++ body)
     req = :cowboy_req.reply(200, %{}, "{\"saved\": \"true\"}", req)
-    {:halt, req, nil}
+    {:stop, req, nil}
   end
 end
