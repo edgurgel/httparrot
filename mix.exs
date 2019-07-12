@@ -19,15 +19,8 @@ defmodule Httparrot.Mixfile do
 
   def application do
     [
-      applications: [:compiler, :syntax_tools, :cowboy, :exjsx, :con_cache],
-      mod: {HTTParrot, []},
-      env: [
-        http_port: 8080,
-        ssl: true,
-        https_port: 8433,
-        unix_socket: true,
-        socket_path: "httparrot.sock"
-      ]
+      extra_applications: [:logger],
+      mod: {HTTParrot, []}
     ]
   end
 
