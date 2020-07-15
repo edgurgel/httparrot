@@ -8,7 +8,7 @@ defmodule Httparrot.Mixfile do
   def project do
     [
       app: :httparrot,
-      version: "1.2.0",
+      version: "1.3.0",
       elixir: "~> 1.7",
       name: "HTTParrot",
       description: @description,
