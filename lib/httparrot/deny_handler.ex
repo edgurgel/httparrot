@@ -18,7 +18,7 @@ defmodule HTTParrot.DenyHandler do
      \  .-"`  `"-.  /
       '.          .'
         '-......-'
-    YOU SHOUDN'T BE HERE
+    YOU SHOULDN'T BE HERE
   """
   def get_plain(req, state) do
     {@body, req, state}

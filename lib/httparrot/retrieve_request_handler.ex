@@ -1,6 +1,6 @@
 defmodule HTTParrot.RetrieveRequestHandler do
   @moduledoc """
-  Retreive saved request and clear the conresponding :id
+  Retrieve saved request and clear the conresponding :id
   """
   use HTTParrot.Cowboy, methods: ~w(GET POST PUT HEAD OPTIONS)
 

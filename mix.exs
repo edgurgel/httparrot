@@ -1,19 +1,18 @@
 defmodule Httparrot.Mixfile do
   use Mix.Project
 
-  @description """
-    HTTP Request & Response Server. An incomplete clone of http://httpbin.org
-  """
+  @source_url "https://github.com/edgurgel/httparrot"
+  @version "1.3.0"
 
   def project do
     [
       app: :httparrot,
-      version: "1.3.0",
+      version: @version,
       elixir: "~> 1.7",
       name: "HTTParrot",
-      description: @description,
       package: package(),
-      deps: deps()
+      deps: deps(),
+      docs: docs()
     ]
   end
 
@@ -30,20 +29,34 @@ defmodule Httparrot.Mixfile do
       {:exjsx, "~> 3.0 or ~> 4.0"},
       {:con_cache, "~> 0.14.0"},
       {:earmark, "~> 1.0", only: :dev},
-      {:ex_doc, "~> 0.18", only: :dev},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:meck, "~> 0.8.13", only: :test}
     ]
   end
 
   defp package do
     [
+      description: "https://github.com/edgurgel/httparrot",
       maintainers: ["Eduardo Gurgel Pinho"],
       licenses: ["MIT"],
       links: %{
-        "Github" => "https://github.com/edgurgel/httparrot",
+        "Github" => @source_url,
         "HTTParrot" => "http://httparrot.herokuapp.com",
         "httpbin" => "http://httpbin.org"
       }
+    ]
+  end
+
+  defp docs do
+    [
+      extras: [
+        "LICENSE.md": [title: "License"],
+        "README.md": [title: "Overview"]
+      ],
+      main: "readme",
+      source_url: @source_url,
+      source_ref: "v{@version}",
+      formatters: ["html"]
     ]
   end
 end
