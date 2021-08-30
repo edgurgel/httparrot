@@ -26,7 +26,7 @@ defmodule HTTParrot.HiddenBasicAuthHandlerTest do
     assert validate(JSX)
   end
 
-  test "resource_exists returns false if user and passwd doesnt match" do
+  test "resource_exists returns false if user and passwd doesn't match" do
     expect(:cowboy_req, :binding, [{[:user, :req1], :user}, {[:passwd, :req1], :passwd}])
 
     expect(:cowboy_req, :parse_header, [
