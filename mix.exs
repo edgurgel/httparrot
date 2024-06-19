@@ -26,12 +26,12 @@ defmodule Httparrot.Mixfile do
 
   defp deps do
     [
-      {:cowboy, "~> 2.8.0"},
+      {:cowboy, "~> 2.12.0"},
       {:exjsx, "~> 3.0 or ~> 4.0"},
-      {:con_cache, "~> 0.14.0"},
+      {:con_cache, "~> 1.1.0"},
       {:earmark, "~> 1.0", only: :dev},
       {:ex_doc, "~> 0.18", only: :dev},
-      {:meck, "~> 0.8.13", only: :test}
+      {:meck, "~> 0.9.2", only: :test}
     ]
   end
 
