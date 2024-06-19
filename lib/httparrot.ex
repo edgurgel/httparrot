@@ -7,7 +7,7 @@ defmodule HTTParrot do
   end
 
   def init(_) do
-    supervise([], strategy: :simple_one_for_one)
+    Supervisor.start_link([], [strategy: :one_for_one])
   end
 
   def start(_type, _args) do
