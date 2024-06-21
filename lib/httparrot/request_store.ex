@@ -1,6 +1,6 @@
 defmodule HTTParrot.RequestStore do
   @moduledoc """
-  Used to store and retrived requests
+  Used to store and retrieved requests
   """
   @doc """
   Store the requests to the key
@@ -26,7 +26,7 @@ defmodule HTTParrot.RequestStore do
   end
 
   @doc """
-  Clear the saved data on the coresponding key
+  Clear the saved data on the corresponding key
   """
   def clear(key) do
     ConCache.delete(:requests_registry, key)
