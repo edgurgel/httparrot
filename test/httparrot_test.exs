@@ -11,10 +11,10 @@ defmodule HTTParrotTest do
 
   test "'prettify_json' prettifies body response if it's a JSON" do
     expect(:cowboy_req, :reply, [
-      {[:status, %{"content-length" => '14'}, "{\n  \"a\": \"b\"\n}", :req1], :req2}
+      {[:status, %{"content-length" => ~c"14"}, "{\n  \"a\": \"b\"\n}", :req1], :req2}
     ])
 
-    assert prettify_json(:status, %{"content-length" => '12'}, "{\"a\":\"b\"}", :req1) == :req2
+    assert prettify_json(:status, %{"content-length" => ~c"12"}, "{\"a\":\"b\"}", :req1) == :req2
     assert validate(:cowboy_req)
   end
 

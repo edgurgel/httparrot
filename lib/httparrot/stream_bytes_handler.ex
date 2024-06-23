@@ -31,13 +31,15 @@ defmodule HTTParrot.StreamBytesHandler do
   end
 
   defp stream_response!(n, chunk_size, req) do
-    req = :cowboy_req.stream_reply(200, %{ "content-type" => "application/octet-stream" }, req)
+    req = :cowboy_req.stream_reply(200, %{"content-type" => "application/octet-stream"}, req)
+
     Stream.repeatedly(fn -> :rand.uniform(255) end)
     |> Stream.take(n)
     |> Enum.chunk_every(chunk_size, chunk_size, [])
     |> Enum.each(fn chunk ->
       :cowboy_req.stream_body(List.to_string(chunk), :nofin, req)
     end)
+
     :cowboy_req.stream_body("", :fin, req)
     req
   end

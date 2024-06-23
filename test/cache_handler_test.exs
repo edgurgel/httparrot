@@ -4,9 +4,9 @@ defmodule HTTParrot.CacheHandlerTest do
   import HTTParrot.CacheHandler
 
   setup do
-    new HTTParrot.GeneralRequestInfo
-    new JSX
-    on_exit fn -> unload() end
+    new(HTTParrot.GeneralRequestInfo)
+    new(JSX)
+    on_exit(fn -> unload() end)
     :ok
   end
 
@@ -16,7 +16,7 @@ defmodule HTTParrot.CacheHandlerTest do
 
     assert get_json(:req1, :state) == {:json, :req2, :state}
 
-    assert validate HTTParrot.GeneralRequestInfo
-    assert validate JSX
+    assert validate(HTTParrot.GeneralRequestInfo)
+    assert validate(JSX)
   end
 end

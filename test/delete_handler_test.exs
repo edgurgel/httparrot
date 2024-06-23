@@ -4,10 +4,10 @@ defmodule HTTParrot.DeleteHandlerTest do
   import HTTParrot.DeleteHandler
 
   setup do
-    new :cowboy_req
-    new HTTParrot.GeneralRequestInfo
-    new JSX
-    on_exit fn -> unload() end
+    new(:cowboy_req)
+    new(HTTParrot.GeneralRequestInfo)
+    new(JSX)
+    on_exit(fn -> unload() end)
     :ok
   end
 
@@ -18,8 +18,8 @@ defmodule HTTParrot.DeleteHandlerTest do
 
     assert delete_resource(:req1, :state) == {true, :req3, :state}
 
-    assert validate :cowboy_req
-    assert validate HTTParrot.GeneralRequestInfo
-    assert validate JSX
+    assert validate(:cowboy_req)
+    assert validate(HTTParrot.GeneralRequestInfo)
+    assert validate(JSX)
   end
 end

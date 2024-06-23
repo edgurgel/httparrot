@@ -23,7 +23,7 @@ defmodule HTTParrot.StoreRequestHandler do
     {info, req} = GeneralRequestInfo.retrieve(req)
     key = :cowboy_req.binding(:key, req)
     HTTParrot.RequestStore.store(key, info)
-    {'{"saved":  "true"}', req, state}
+    {~c'{"saved":  "true"}', req, state}
   end
 
   def post_binary(req, _state) do

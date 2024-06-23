@@ -7,7 +7,7 @@ defmodule HTTParrot do
   end
 
   def init(_) do
-    Supervisor.start_link([], [strategy: :one_for_one])
+    Supervisor.start_link([], strategy: :one_for_one)
   end
 
   def start(_type, _args) do
@@ -71,9 +71,9 @@ defmodule HTTParrot do
           :https,
           [
             port: https_port,
-            cacertfile: priv_dir ++ '/ssl/server-ca.crt',
-            certfile: priv_dir ++ '/ssl/server.crt',
-            keyfile: priv_dir ++ '/ssl/server.key'
+            cacertfile: priv_dir ++ ~c"/ssl/server-ca.crt",
+            certfile: priv_dir ++ ~c"/ssl/server.crt",
+            keyfile: priv_dir ++ ~c"/ssl/server.key"
           ],
           %{env: %{dispatch: dispatch}}
         )

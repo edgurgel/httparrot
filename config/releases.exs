@@ -14,4 +14,3 @@ config :httparrot,
   https_port: ssl_port,
   unix_socket: unix_socket,
   socket_path: System.get_env("SOCKET_PATH", "httparrot.sock")
-
