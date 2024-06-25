@@ -4,9 +4,9 @@ defmodule HTTParrot.GzipHandlerTest do
   import HTTParrot.GzipHandler
 
   setup do
-    new HTTParrot.GeneralRequestInfo
-    new JSX
-    on_exit fn -> unload() end
+    new(HTTParrot.GeneralRequestInfo)
+    new(JSX)
+    on_exit(fn -> unload() end)
     :ok
   end
 
@@ -20,8 +20,8 @@ defmodule HTTParrot.GzipHandlerTest do
 
     assert get_json(:req1, :state) == {body, :req3, :state}
 
-    assert validate HTTParrot.GeneralRequestInfo
-    assert validate JSX
-    assert validate :cowboy_req
+    assert validate(HTTParrot.GeneralRequestInfo)
+    assert validate(JSX)
+    assert validate(:cowboy_req)
   end
 end

@@ -1,0 +1,54 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  format:
+    name: Format & credo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.1
+
+      - name: Install OTP and Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: 26.x
+          elixir-version: 1.16.x
+
+      - name: Install dependencies
+        run: mix deps.get
+
+      - name: Compile with --warnings-as-errors
+        run: mix compile --warnings-as-errors
+
+      - name: Run "mix format"
+        run: mix format --check-formatted
+
+  test:
+    name: Test (Elixir ${{matrix.elixir}} | Erlang/OTP ${{matrix.otp}})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - otp: 26.x
+            elixir: 1.16.x
+            coverage: true
+          - otp: 27.x
+            elixir: 1.17.x
+    env:
+      MIX_ENV: test
+    steps:
+      - uses: actions/checkout@v2.3.1
+
+      - name: Install OTP and Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{matrix.otp}}
+          elixir-version: ${{matrix.elixir}}
+
+      - name: Install dependencies
+        run: mix deps.get --only test
+
+      - name: Run tests
+        run: mix test --trace

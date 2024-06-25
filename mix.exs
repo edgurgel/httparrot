@@ -2,13 +2,13 @@ defmodule Httparrot.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/edgurgel/httparrot"
-  @version "1.3.0"
+  @version "1.4.0"
 
   def project do
     [
       app: :httparrot,
       version: @version,
-      elixir: "~> 1.7",
+      elixir: "~> 1.16",
       name: "HTTParrot",
       package: package(),
       deps: deps(),
@@ -25,12 +25,12 @@ defmodule Httparrot.Mixfile do
 
   defp deps do
     [
-      {:cowboy, "~> 2.8.0"},
+      {:cowboy, "~> 2.12"},
       {:exjsx, "~> 3.0 or ~> 4.0"},
-      {:con_cache, "~> 0.14.0"},
+      {:con_cache, "~> 1.1"},
       {:earmark, "~> 1.0", only: :dev},
-      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
-      {:meck, "~> 0.8.13", only: :test}
+      {:ex_doc, "~> 0.18", only: :dev},
+      {:meck, "~> 0.9", only: :test}
     ]
   end
 
@@ -55,7 +55,7 @@ defmodule Httparrot.Mixfile do
       ],
       main: "readme",
       source_url: @source_url,
-      source_ref: "v{@version}",
+      source_ref: "v#{@version}",
       formatters: ["html"]
     ]
   end

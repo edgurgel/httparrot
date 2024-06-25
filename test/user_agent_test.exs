@@ -4,9 +4,9 @@ defmodule HTTParrot.UserAgentHandlerTest do
   import HTTParrot.UserAgentHandler
 
   setup do
-    new :cowboy_req
-    new JSX
-    on_exit fn -> unload() end
+    new(:cowboy_req)
+    new(JSX)
+    on_exit(fn -> unload() end)
     :ok
   end
 
@@ -16,7 +16,7 @@ defmodule HTTParrot.UserAgentHandlerTest do
 
     assert get_json(:req1, :state) == {:json, :req1, :state}
 
-    assert validate :cowboy_req
-    assert validate JSX
+    assert validate(:cowboy_req)
+    assert validate(JSX)
   end
 end

@@ -13,7 +13,7 @@ defmodule HTTParrot.PHandler do
   """
   def allowed_methods(req, state) do
     path = :cowboy_req.path(req)
-    path = String.slice(path, 1..-1)
+    path = String.slice(path, 1..-1//1)
     {[String.upcase(path)], req, state}
   end
 

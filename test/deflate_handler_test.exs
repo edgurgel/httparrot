@@ -4,9 +4,9 @@ defmodule HTTParrot.DeflateHandlerTest do
   import HTTParrot.DeflateHandler
 
   setup do
-    new HTTParrot.GeneralRequestInfo
-    new JSX
-    on_exit fn -> unload() end
+    new(HTTParrot.GeneralRequestInfo)
+    new(JSX)
+    on_exit(fn -> unload() end)
     :ok
   end
 
@@ -16,15 +16,15 @@ defmodule HTTParrot.DeflateHandlerTest do
     expect(JSX, :prettify!, [{[:json], "json"}])
     expect(:cowboy_req, :set_resp_header, 3, :req3)
 
-    opened_zlib = :zlib.open
+    opened_zlib = :zlib.open()
     :zlib.deflateInit(opened_zlib)
     body = :zlib.deflate(opened_zlib, "json", :finish)
     :zlib.deflateEnd(opened_zlib)
 
     assert get_json(:req1, :state) == {body, :req3, :state}
 
-    assert validate HTTParrot.GeneralRequestInfo
-    assert validate JSX
-    assert validate :cowboy_req
+    assert validate(HTTParrot.GeneralRequestInfo)
+    assert validate(JSX)
+    assert validate(:cowboy_req)
   end
 end

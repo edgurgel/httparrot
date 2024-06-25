@@ -12,15 +12,15 @@ defmodule HTTParrot.StoreRequestHandlerTests do
   test "store a request" do
     expect(:cowboy_req, :binding, [:key, :req1], :test)
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {:info, :req1})
-    assert get(:req1, :state) == {'{"saved":  "true"}', :req1, :state}
+    assert get(:req1, :state) == {~c'{"saved":  "true"}', :req1, :state}
     assert HTTParrot.RequestStore.retrieve(:test) == [:info]
   end
 
   test "store multiple requests" do
     expect(:cowboy_req, :binding, [:key, :req1], :test)
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {:info, :req1})
-    assert get(:req1, :state) == {'{"saved":  "true"}', :req1, :state}
-    assert get(:req2, :state) == {'{"saved":  "true"}', :req1, :state}
+    assert get(:req1, :state) == {~c'{"saved":  "true"}', :req1, :state}
+    assert get(:req2, :state) == {~c'{"saved":  "true"}', :req1, :state}
     assert HTTParrot.RequestStore.retrieve(:test) == [:info, :info]
   end
 end

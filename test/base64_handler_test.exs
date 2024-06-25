@@ -4,8 +4,8 @@ defmodule HTTParrot.Base64HandlerTest do
   import HTTParrot.Base64Handler
 
   setup do
-    new :cowboy_req
-    on_exit fn -> unload() end
+    new(:cowboy_req)
+    on_exit(fn -> unload() end)
     :ok
   end
 
