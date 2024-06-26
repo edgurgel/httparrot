@@ -56,7 +56,7 @@
 
 <div class='mp'>
 <h1>httparrot(1): HTTP Request &amp; Response Service</h1>
-<p>Freely hosted in <a href="http://httparrot.herokuapp.com">HTTP</a> &amp; <a href="https://httparrot.herokuapp.com">HTTPS</a>
+<p>Freely hosted in <a href="https://httparrot.onrender.com/">HTTPS</a>
 
 <h2 id="ENDPOINTS">ENDPOINTS</h2>
 
@@ -104,34 +104,46 @@ scenarios. Additional endpoints are being considered (e.g. <code>/deflate</code>
 
 <h2 id="EXAMPLES">EXAMPLES</h2>
 
-<h3 id="-curl-http-httparrot-org-ip">$ curl http://httparrot.herokuapp.com/ip</h3>
+<h3 id="-curl-http-httparrot-org-ip">$ curl https://httparrot.onrender.com/</h3>
 
 <pre><code>{"origin": "24.127.96.129"}
 </code></pre>
 
-<h3 id="-curl-http-httparrot-org-user-agent">$ curl http://httparrot.herokuapp.com/user-agent</h3>
+<h3 id="-curl-http-httparrot-org-user-agent">$ curl https://httparrot.onrender.com/user-agent</h3>
 
 <pre><code>{"user-agent": "curl/7.19.7 (universal-apple-darwin10.0) libcurl/7.19.7 OpenSSL/0.9.8l zlib/1.2.3"}
 </code></pre>
 
-<h3 id="-curl-http-httparrot-org-get">$ curl http://httparrot.herokuapp.com/get</h3>
+<h3 id="-curl-http-httparrot-org-get">$ curl https://httparrot.onrender.com/get</h3>
 
-<pre><code>{
-   "args": {},
-   "headers": {
-      "Accept": "*/*",
-      "Connection": "close",
-      "Content-Length": "",
-      "Content-Type": "",
-      "Host": "httparrot.herokuapp.com",
-      "User-Agent": "curl/7.19.7 (universal-apple-darwin10.0) libcurl/7.19.7 OpenSSL/0.9.8l zlib/1.2.3"
-   },
-   "origin": "24.127.96.129",
-   "url": "http://httparrot.herokuapp.com/get"
-}
+<pre><code>
+        {
+        "args": {},
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip",
+          "cdn-loop": "cloudflare; subreqs=1",
+          "cf-connecting-ip": "118.148.71.18",
+          "cf-ew-via": "15",
+          "cf-ipcountry": "NZ",
+          "cf-ray": "899c4ca20494508c-AKL",
+          "cf-visitor": "{\"scheme\":\"https\"}",
+          "cf-worker": "onrender.com",
+          "host": "httparrot.onrender.com",
+          "render-proxy-ttl": "4",
+          "rndr-id": "1cf65e46-55f1-429d",
+          "true-client-ip": "118.148.71.18",
+          "user-agent": "curl/7.81.0",
+          "x-forwarded-for": "118.148.71.18, 10.213.36.192, 10.214.43.80",
+          "x-forwarded-proto": "https",
+          "x-request-start": "1719395492280333"
+        },
+        "url": "http://httparrot.onrender.com/get",
+        "origin": ""
+      }
 </code></pre>
 
-<h3 id="-curl-I-http-httparrot-org-status-418">$ curl -I http://httparrot.herokuapp.com/status/201</h3>
+<h3 id="-curl-I-http-httparrot-org-status-418">$ curl -I https://httparrot.onrender.com/status/201</h3>
 
 <pre><code>HTTP/1.1 201
 Server: Cowboy

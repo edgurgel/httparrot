@@ -41,7 +41,7 @@ defmodule Httparrot.Mixfile do
       licenses: ["MIT"],
       links: %{
         "Github" => @source_url,
-        "HTTParrot" => "http://httparrot.herokuapp.com",
+        "HTTParrot" => "https://httparrot.onrender.com/",
         "httpbin" => "http://httpbin.org"
       }
     ]
