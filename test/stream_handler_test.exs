@@ -6,7 +6,7 @@ defmodule HTTParrot.StreamHandlerTest do
   setup do
     new(:cowboy_req)
     new(HTTParrot.GeneralRequestInfo)
-    new(JSX)
+    new(HTTParrot.JSON)
     on_exit(fn -> unload() end)
     :ok
   end
@@ -47,11 +47,15 @@ defmodule HTTParrot.StreamHandlerTest do
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req2})
     expect(:cowboy_req, :stream_reply, 3, :req2)
     expect(:cowboy_req, :stream_body, 3, :req2)
-    expect(JSX, :encode!, [{[[{:id, 0}, :info]], :json1}, {[[{:id, 1}, :info]], :json2}])
+
+    expect(HTTParrot.JSON, :encode!, [
+      {[[{:id, 0}, :info]], :json1},
+      {[[{:id, 1}, :info]], :json2}
+    ])
 
     assert {:stop, :req2, nil} = get_json(:req1, 2)
 
     assert validate(HTTParrot.GeneralRequestInfo)
-    assert validate(JSX)
+    assert validate(HTTParrot.JSON)
   end
 end

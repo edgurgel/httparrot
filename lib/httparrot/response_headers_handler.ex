@@ -28,6 +28,6 @@ defmodule HTTParrot.ResponseHeadersHandler do
   end
 
   defp response(qs_vals) do
-    qs_vals |> JSX.encode!()
+    HTTParrot.JSON.encode!(qs_vals)
   end
 end

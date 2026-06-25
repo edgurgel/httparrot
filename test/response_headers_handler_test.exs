@@ -5,7 +5,7 @@ defmodule HTTParrot.ResponseHeadersHandlerTest do
 
   setup do
     new(:cowboy_req)
-    new(JSX)
+    new(HTTParrot.JSON)
     on_exit(fn -> unload() end)
     :ok
   end
@@ -29,11 +29,11 @@ defmodule HTTParrot.ResponseHeadersHandlerTest do
   test "query string parameters are sent as headers" do
     expect(:cowboy_req, :set_resp_header, [{[:k1, :v1, :req1], :req2}, {[:k2, :v2, :req2], :req3}])
 
-    expect(JSX, :encode!, [{[[k1: :v1, k2: :v2]], :json}])
+    expect(HTTParrot.JSON, :encode!, [{[[k1: :v1, k2: :v2]], :json}])
 
     assert get_json(:req1, k1: :v1, k2: :v2) == {:json, :req3, [k1: :v1, k2: :v2]}
 
     assert validate(:cowboy_req)
-    assert validate(JSX)
+    assert validate(HTTParrot.JSON)
   end
 end

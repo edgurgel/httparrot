@@ -108,8 +108,8 @@ defmodule HTTParrot do
   def stop(_State), do: :ok
 
   def prettify_json(status, headers, body, req) do
-    if JSX.is_json?(body) do
-      body = JSX.prettify!(body)
+    if HTTParrot.JSON.is_json?(body) do
+      body = HTTParrot.JSON.prettify!(body)
 
       headers = Map.put(headers, "content-length", Integer.to_charlist(String.length(body)))
 

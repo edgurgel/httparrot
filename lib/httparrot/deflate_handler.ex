@@ -15,13 +15,13 @@ defmodule HTTParrot.DeflateHandler do
 
     {info, req} = GeneralRequestInfo.retrieve(req)
     req = :cowboy_req.set_resp_header("content-encoding", "deflate", req)
-    json = response(info) |> JSX.prettify!()
+    json = HTTParrot.JSON.prettify!(response(info))
     response = :zlib.deflate(zlib, json, :finish)
     :zlib.deflateEnd(zlib)
     {response, req, state}
   end
 
   defp response(info) do
-    info |> JSX.encode!()
+    HTTParrot.JSON.encode!(info)
   end
 end

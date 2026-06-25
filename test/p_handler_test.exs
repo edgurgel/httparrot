@@ -5,7 +5,7 @@ defmodule HTTParrot.PHandlerTest do
 
   setup do
     new(HTTParrot.GeneralRequestInfo)
-    new(JSX)
+    new(HTTParrot.JSON)
     new(:cowboy_req)
     on_exit(fn -> unload() end)
     :ok
@@ -28,7 +28,10 @@ defmodule HTTParrot.PHandlerTest do
     expect(:cowboy_req, :read_urlencoded_body, 1, {:ok, :body_qs, :req2})
     expect(:cowboy_req, :set_resp_body, [{[:response, :req3], :req4}])
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req3})
-    expect(JSX, :encode!, [{[[:info, {:form, :body_qs}, {:data, ""}, {:json, nil}]], :response}])
+
+    expect(HTTParrot.JSON, :encode!, [
+      {[[:info, {:form, :body_qs}, {:data, ""}, {:json, nil}]], :response}
+    ])
 
     assert post_form(:req1, :state) == {true, :req4, nil}
 
@@ -39,10 +42,10 @@ defmodule HTTParrot.PHandlerTest do
     expect(:cowboy_req, :read_body, 1, {:ok, "body", :req2})
     expect(:cowboy_req, :set_resp_body, [{[:response, :req3], :req4}])
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req3})
-    expect(JSX, :is_json?, 1, true)
-    expect(JSX, :decode!, 1, :decoded_json)
+    expect(HTTParrot.JSON, :is_json?, 1, true)
+    expect(HTTParrot.JSON, :decode!, 1, :decoded_json)
 
-    expect(JSX, :encode!, [
+    expect(HTTParrot.JSON, :encode!, [
       {[[:info, {:form, [{}]}, {:data, "body"}, {:json, :decoded_json}]], :response}
     ])
 
@@ -55,8 +58,11 @@ defmodule HTTParrot.PHandlerTest do
     expect(:cowboy_req, :read_body, 1, {:ok, "body", :req2})
     expect(:cowboy_req, :set_resp_body, [{[:response, :req3], :req4}])
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req3})
-    expect(JSX, :is_json?, 1, false)
-    expect(JSX, :encode!, [{[[:info, {:form, [{}]}, {:data, "body"}, {:json, nil}]], :response}])
+    expect(HTTParrot.JSON, :is_json?, 1, false)
+
+    expect(HTTParrot.JSON, :encode!, [
+      {[[:info, {:form, [{}]}, {:data, "body"}, {:json, nil}]], :response}
+    ])
 
     assert post_binary(:req1, :state) == {true, :req4, nil}
 
@@ -67,9 +73,9 @@ defmodule HTTParrot.PHandlerTest do
     expect(:cowboy_req, :read_body, 1, {:ok, <<0xFFFF::16>>, :req2})
     expect(:cowboy_req, :set_resp_body, [{[:response, :req3], :req4}])
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req3})
-    expect(JSX, :is_json?, 1, false)
+    expect(HTTParrot.JSON, :is_json?, 1, false)
 
-    expect(JSX, :encode!, [
+    expect(HTTParrot.JSON, :encode!, [
       {[
          [
            :info,
@@ -101,9 +107,9 @@ defmodule HTTParrot.PHandlerTest do
 
     expect(:cowboy_req, :set_resp_body, [{[:response, :req4], :req5}])
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req4})
-    expect(JSX, :is_json?, 1, false)
+    expect(HTTParrot.JSON, :is_json?, 1, false)
 
-    expect(JSX, :encode!, [
+    expect(HTTParrot.JSON, :encode!, [
       {[[:info, {:form, [{}]}, {:data, first_chunk <> second_chunk}, {:json, nil}]], :response}
     ])
 
@@ -128,9 +134,9 @@ defmodule HTTParrot.PHandlerTest do
 
     expect(:cowboy_req, :set_resp_body, [{[:response, :req4], :req5}])
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req4})
-    expect(JSX, :is_json?, 1, false)
+    expect(HTTParrot.JSON, :is_json?, 1, false)
 
-    expect(JSX, :encode!, [
+    expect(HTTParrot.JSON, :encode!, [
       {[
          [
            :info,
@@ -168,9 +174,9 @@ defmodule HTTParrot.PHandlerTest do
 
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req6})
 
-    expect(JSX, :is_json?, 1, false)
+    expect(HTTParrot.JSON, :is_json?, 1, false)
 
-    expect(JSX, :encode!, [
+    expect(HTTParrot.JSON, :encode!, [
       {[[:info, {:form, [{"key1", "value1"}]}, {:files, [{}]}, {:data, ""}, {:json, nil}]],
        :response}
     ])
@@ -210,9 +216,9 @@ defmodule HTTParrot.PHandlerTest do
 
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req8})
 
-    expect(JSX, :is_json?, 1, false)
+    expect(HTTParrot.JSON, :is_json?, 1, false)
 
-    expect(JSX, :encode!, [
+    expect(HTTParrot.JSON, :encode!, [
       {[
          [
            :info,
@@ -257,9 +263,9 @@ defmodule HTTParrot.PHandlerTest do
 
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req6})
 
-    expect(JSX, :is_json?, 1, false)
+    expect(HTTParrot.JSON, :is_json?, 1, false)
 
-    expect(JSX, :encode!, [
+    expect(HTTParrot.JSON, :encode!, [
       {[
          [
            :info,
@@ -310,9 +316,9 @@ defmodule HTTParrot.PHandlerTest do
 
     expect(HTTParrot.GeneralRequestInfo, :retrieve, 1, {[:info], :req8})
 
-    expect(JSX, :is_json?, 1, false)
+    expect(HTTParrot.JSON, :is_json?, 1, false)
 
-    expect(JSX, :encode!, [
+    expect(HTTParrot.JSON, :encode!, [
       {[
          [
            :info,

@@ -5,18 +5,18 @@ defmodule HTTParrot.HeadersHandlerTest do
 
   setup do
     new(:cowboy_req)
-    new(JSX)
+    new(HTTParrot.JSON)
     on_exit(fn -> unload() end)
     :ok
   end
 
   test "returns prettified json with headers list" do
     expect(:cowboy_req, :headers, 1, :headers)
-    expect(JSX, :encode!, [{[[headers: :headers]], :json}])
+    expect(HTTParrot.JSON, :encode!, [{[[headers: :headers]], :json}])
 
     assert get_json(:req1, :state) == {:json, :req1, :state}
 
     assert validate(:cowboy_req)
-    assert validate(JSX)
+    assert validate(HTTParrot.JSON)
   end
 end

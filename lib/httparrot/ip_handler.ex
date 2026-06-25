@@ -30,11 +30,11 @@ defmodule HTTParrot.IPHandler do
   end
 
   defp response({127, 0, 0, 1}) do
-    [origin: ""] |> JSX.encode!()
+    HTTParrot.JSON.encode!(origin: "")
   end
 
   defp response(ip) do
     ip = :inet_parse.ntoa(ip) |> to_string
-    [origin: ip] |> JSX.encode!()
+    HTTParrot.JSON.encode!(origin: ip)
   end
 end

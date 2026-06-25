@@ -5,7 +5,7 @@ defmodule HTTParrot.BasicAuthHandlerTest do
 
   setup do
     new(:cowboy_req)
-    new(JSX)
+    new(HTTParrot.JSON)
     on_exit(fn -> unload() end)
     :ok
   end
@@ -17,7 +17,7 @@ defmodule HTTParrot.BasicAuthHandlerTest do
     assert is_authorized(:req1, :state) == {true, :req1, :user}
 
     assert validate(:cowboy_req)
-    assert validate(JSX)
+    assert validate(HTTParrot.JSON)
   end
 
   test "is_authorized returns false if user and passwd doesnt match" do
@@ -30,14 +30,14 @@ defmodule HTTParrot.BasicAuthHandlerTest do
     assert is_authorized(:req1, :state) == {{false, "Basic realm=\"Fake Realm\""}, :req1, :state}
 
     assert validate(:cowboy_req)
-    assert validate(JSX)
+    assert validate(HTTParrot.JSON)
   end
 
   test "returns user and if it's authenticated" do
-    expect(JSX, :encode!, [{[[authenticated: true, user: :user]], :json}])
+    expect(HTTParrot.JSON, :encode!, [{[[authenticated: true, user: :user]], :json}])
 
     assert get_json(:req1, :user) == {:json, :req1, nil}
 
-    assert validate(JSX)
+    assert validate(HTTParrot.JSON)
   end
 end
