@@ -28,7 +28,7 @@ defmodule HTTParrot.StreamHandler do
     req = :cowboy_req.stream_reply(200, %{"content-type" => "application/json"}, req)
 
     Enum.each(0..(n - 1), fn i ->
-      body = JSX.encode!([id: i] ++ info)
+      body = HTTParrot.JSON.encode!([id: i] ++ info)
       :cowboy_req.stream_body(body, :nofin, req)
     end)
 

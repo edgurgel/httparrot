@@ -16,6 +16,6 @@ defmodule HTTParrot.RetrieveRequestHandler do
   end
 
   defp response(info) do
-    info |> JSX.encode!()
+    HTTParrot.JSON.encode!(info)
   end
 end

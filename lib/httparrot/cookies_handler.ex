@@ -15,6 +15,6 @@ defmodule HTTParrot.CookiesHandler do
   end
 
   defp response(cookies) do
-    [cookies: cookies] |> JSX.encode!()
+    HTTParrot.JSON.encode!(cookies: cookies)
   end
 end

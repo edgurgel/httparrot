@@ -12,11 +12,11 @@ defmodule HTTParrot.GzipHandler do
   def get_json(req, state) do
     {info, req} = GeneralRequestInfo.retrieve(req)
     req = :cowboy_req.set_resp_header("content-encoding", "gzip", req)
-    response = response(info) |> JSX.prettify!() |> :zlib.gzip()
+    response = HTTParrot.JSON.prettify!(response(info)) |> :zlib.gzip()
     {response, req, state}
   end
 
   defp response(info) do
-    info |> JSX.encode!()
+    HTTParrot.JSON.encode!(info)
   end
 end

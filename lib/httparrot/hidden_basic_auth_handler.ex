@@ -27,6 +27,6 @@ defmodule HTTParrot.HiddenBasicAuthHandler do
   end
 
   defp response(user) do
-    [authenticated: true, user: user] |> JSX.encode!()
+    HTTParrot.JSON.encode!(authenticated: true, user: user)
   end
 end

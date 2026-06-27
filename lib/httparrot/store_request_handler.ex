@@ -30,8 +30,8 @@ defmodule HTTParrot.StoreRequestHandler do
     {:ok, body, req} = HTTParrot.PHandler.handle_binary(req)
 
     if String.valid?(body) do
-      if JSX.is_json?(body) do
-        save_post(req, form: [{}], data: body, json: JSX.decode!(body))
+      if HTTParrot.JSON.is_json?(body) do
+        save_post(req, form: [{}], data: body, json: HTTParrot.JSON.decode!(body))
       else
         save_post(req, form: [{}], data: body, json: nil)
       end

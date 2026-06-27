@@ -5,7 +5,7 @@ defmodule HTTParrot.HiddenBasicAuthHandlerTest do
 
   setup do
     new(:cowboy_req)
-    new(JSX)
+    new(HTTParrot.JSON)
     on_exit(fn -> unload() end)
     :ok
   end
@@ -23,7 +23,7 @@ defmodule HTTParrot.HiddenBasicAuthHandlerTest do
     assert resource_exists(:req1, :state) == {true, :req1, :user}
 
     assert validate(:cowboy_req)
-    assert validate(JSX)
+    assert validate(HTTParrot.JSON)
   end
 
   test "resource_exists returns false if user and passwd doesn't match" do
@@ -36,14 +36,14 @@ defmodule HTTParrot.HiddenBasicAuthHandlerTest do
     assert resource_exists(:req1, :state) == {false, :req1, :state}
 
     assert validate(:cowboy_req)
-    assert validate(JSX)
+    assert validate(HTTParrot.JSON)
   end
 
   test "returns user and if it's authenticated" do
-    expect(JSX, :encode!, [{[[authenticated: true, user: :user]], :json}])
+    expect(HTTParrot.JSON, :encode!, [{[[authenticated: true, user: :user]], :json}])
 
     assert get_json(:req1, :user) == {:json, :req1, nil}
 
-    assert validate(JSX)
+    assert validate(HTTParrot.JSON)
   end
 end

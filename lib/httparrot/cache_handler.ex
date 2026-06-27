@@ -19,6 +19,6 @@ defmodule HTTParrot.CacheHandler do
   end
 
   defp response(info) do
-    info |> JSX.encode!()
+    HTTParrot.JSON.encode!(info)
   end
 end
