@@ -2,7 +2,7 @@ defmodule Httparrot.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/edgurgel/httparrot"
-  @version "1.4.0"
+  @version "1.5.0"
 
   def project do
     [
