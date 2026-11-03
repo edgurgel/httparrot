@@ -10,7 +10,7 @@ defmodule HTTParrot.RetrieveRequestHandlerTests do
   end
 
   test "returns saved requests" do
-    expect(:cowboy_req, :binding, [:key, :req1], {:test, :req1})
+    expect(:cowboy_req, :binding, [:key, :req1], :test)
     HTTParrot.RequestStore.store(:test, :req1)
     assert retrieve_stored(:req1, :state) == {"[\"req1\"]", :req1, :state}
   end
